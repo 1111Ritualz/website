@@ -23,7 +23,7 @@ function App() {
   const mysticMix = products.filter(p => p.category === 'Mystic Mix');
 
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="app">
         <Navbar />
 
