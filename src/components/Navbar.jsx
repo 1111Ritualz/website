@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
+    const { user } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -38,12 +40,12 @@ const Navbar = () => {
                 </div>
 
                 {/* Logo */}
-                <Link to="/" style={{ fontSize: '1.5rem', fontFamily: 'var(--font-serif)', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase' }}>
+                <Link to="/" style={{ color: "white", fontSize: '1.5rem', fontFamily: 'var(--font-serif)', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase' }}>
                     1111 Ritualz
                 </Link>
 
                 {/* Desktop Links */}
-                <ul className="desktop-links" style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                <ul className="desktop-links" style={{ color: "white", display: 'flex', gap: '2rem', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/shop">Shop</Link></li>
                     <li><Link to="/about">Our Story</Link></li>
@@ -52,9 +54,19 @@ const Navbar = () => {
                 </ul>
 
                 {/* Icons */}
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                <div style={{ color: "white", display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
                     <Search size={20} style={{ cursor: 'pointer' }} />
-                    <User size={20} style={{ cursor: 'pointer' }} />
+
+                    {/* Auth Links */}
+                    {user ? (
+                        <>
+                            <Link to="/account" style={{ color: 'white', textDecoration: 'none' }}>Account</Link>
+                            <Link to="/logout" style={{ color: 'white', textDecoration: 'none' }}>Logout</Link>
+                        </>
+                    ) : (
+                        <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}><User size={20} style={{ cursor: 'pointer' }} /> LogIn</Link>
+                    )}
+
                     <div style={{ position: 'relative', cursor: 'pointer' }}>
                         <ShoppingBag size={20} />
                         <span style={{

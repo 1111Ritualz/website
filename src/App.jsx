@@ -8,6 +8,13 @@ import CollectionList from './components/CollectionList';
 import Founder from './components/Founder';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Verify from './components/Verify';
+import ForgotPassword from './components/ForgotPassword';
+import Logout from './components/Logout';
+import ProtectedRoute from './components/ProtectedRoute';
+import Account from './components/Account';
 import { products } from './data';
 
 function App() {
@@ -36,6 +43,16 @@ function App() {
               <Founder />
               <Testimonials />
             </>
+          } />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/account" element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
           } />
           {/* Add other routes as needed */}
           <Route path="*" element={<div className="container section-padding text-center"><h2>Page Not Found</h2></div>} />

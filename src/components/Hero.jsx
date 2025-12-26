@@ -1,50 +1,69 @@
-import React from 'react';
+import React from "react";
+import heroVideo from "../assets/videos/1111R.mp4";
 
 const Hero = () => {
     const heroStyles = {
-        height: '100vh',
-        width: '100%',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5d2294c?q=80&w=2000&auto=format&fit=crop")', // Abstract spiritual background
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        color: '#fff',
-        position: 'relative'
+        height: "100vh",
+        width: "100%",
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        color: "#fff",
+    };
+
+    const videoStyles = {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        zIndex: 0,
+        filter: "brightness(0.6)",
     };
 
     const overlayStyles = {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.4)'
+        position: "absolute",
+        inset: 0,
+        backgroundColor: "rgba(0,0,0,0.45)",
+        zIndex: 1,
     };
 
     const contentStyles = {
-        position: 'relative',
-        zIndex: 1,
-        padding: '0 1rem',
-        maxWidth: '800px'
+        position: "relative",
+        zIndex: 2,
+        maxWidth: "800px",
+        padding: "0 1rem",
     };
 
     return (
         <section style={heroStyles}>
-            <div style={overlayStyles}></div>
+            {/* Background Video */}
+            <video
+                style={videoStyles}
+                src={heroVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+            />
+
+            {/* Overlay */}
+            <div style={overlayStyles} />
+
+            {/* Content */}
             <div style={contentStyles} className="fade-in">
-                <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)' }}>
+                <h1 style={{ fontSize: "3.5rem", marginBottom: "1rem", color: "white" }}>
                     Welcome to 1111 Ritualz
                 </h1>
-                <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: '#f0f0f0', maxWidth: '600px', margin: '0 auto 2rem' }}>
-                    Making spirituality simple through lightcoded products. Discover crystals, home products, Feng Shui, and more aligned with your soul's journey.
+                <p style={{ fontSize: "1.2rem", marginBottom: "2rem", color: "white" }}>
+                    Making spirituality simple through lightcoded products.
                 </p>
-                <button className="btn" style={{ borderColor: '#fff', color: '#fff' }}>
-                    Explore Collection
-                </button>
+                <button className="btn">Explore Collection</button>
             </div>
         </section>
     );

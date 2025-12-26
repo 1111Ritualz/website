@@ -8,7 +8,7 @@ const Footer = () => {
 
                 {/* Brand */}
                 <div>
-                    <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontFamily: 'var(--font-serif)' }}>Vani Kabir Studio</h3>
+                    <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontFamily: 'var(--font-serif)' }}>1111 Ritualz</h3>
                     <p style={{ color: '#999', fontSize: '0.9rem' }}>
                         Lightcoded crystals, healing bracelets, feng shui items & spiritual decor, blessed to support self-care, energy & transformation.
                     </p>
@@ -43,27 +43,11 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Newsletter */}
-                <div>
-                    <h4 style={{ color: '#fff', marginBottom: '1.5rem' }}>Subscribe</h4>
-                    <p style={{ color: '#999', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                        Join our spiritual community and get exclusive offers.
-                    </p>
-                    <div style={{ display: 'flex' }}>
-                        <input
-                            type="email"
-                            placeholder="Your email"
-                            style={{ padding: '0.8rem', width: '100%', border: 'none' }}
-                        />
-                        <button style={{ padding: '0.8rem', backgroundColor: 'var(--color-gold)', border: 'none', cursor: 'pointer' }}>
-                            JOIN
-                        </button>
-                    </div>
-                </div>
+
             </div>
 
             <div className="container" style={{ borderTop: '1px solid #333', paddingTop: '2rem', textAlign: 'center', color: '#666', fontSize: '0.8rem' }}>
-                <p>&copy; {new Date().getFullYear()} Vani Kabir Studio. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} 1111 Ritualz. All rights reserved.</p>
             </div>
         </footer>
     );
