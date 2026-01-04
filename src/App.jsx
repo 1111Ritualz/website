@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AumatrixSection from './components/AumatrixSection';
@@ -23,7 +23,7 @@ function App() {
   const mysticMix = products.filter(p => p.category === 'Mystic Mix');
 
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router>
       <div className="app">
         <Navbar />
 
