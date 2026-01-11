@@ -58,7 +58,7 @@ const Hero = () => {
             {/* Content */}
             <div style={contentStyles} className="fade-in">
                 <h1 style={{ fontSize: "3.5rem", marginBottom: "1rem", color: "white" }}>
-                    Welcome to 1111 Ritualz
+                    Welcome to 1111 Richualz
                 </h1>
                 <p style={{ fontSize: "1.2rem", marginBottom: "2rem", color: "white" }}>
                     Making spirituality simple through lightcoded products.

@@ -41,7 +41,7 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <Link to="/" style={{ color: "white", fontSize: '1.5rem', fontFamily: 'var(--font-serif)', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase' }}>
-                    1111 Ritualz
+                    1111 Richualz
                 </Link>
 
                 {/* Desktop Links */}

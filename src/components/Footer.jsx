@@ -8,7 +8,7 @@ const Footer = () => {
 
                 {/* Brand */}
                 <div>
-                    <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontFamily: 'var(--font-serif)' }}>1111 Ritualz</h3>
+                    <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontFamily: 'var(--font-serif)' }}>1111 Richualz</h3>
                     <p style={{ color: '#999', fontSize: '0.9rem' }}>
                         Lightcoded crystals, healing bracelets, feng shui items & spiritual decor, blessed to support self-care, energy & transformation.
                     </p>
@@ -47,7 +47,7 @@ const Footer = () => {
             </div>
 
             <div className="container" style={{ borderTop: '1px solid #333', paddingTop: '2rem', textAlign: 'center', color: '#666', fontSize: '0.8rem' }}>
-                <p>&copy; {new Date().getFullYear()} 1111 Ritualz. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} 1111 Richualz. All rights reserved.</p>
             </div>
         </footer>
     );
