@@ -1,5 +1,5 @@
 import React from "react";
-import heroVideo from "../assets/videos/1111R.mp4";
+import heroVideo from "../assets/videos/richvid.mp4";
 
 const Hero = () => {
     const heroStyles = {
