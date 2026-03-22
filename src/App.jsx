@@ -14,15 +14,20 @@ import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Account from './components/Account';
 import Narrative from './components/Narrative';
-// import Readings from './components/Readings';
+import Countdown from './components/Countdown';
 import { products } from './data';
 
 function App() {
+  const [isLaunched, setIsLaunched] = React.useState(
+    new Date() >= new Date("2026-03-22T13:00:00Z")
+  );
+
   const newEnergies = products.filter(p => p.category === 'Aura Cleansing');
 
   return (
     <Router>
       <div className="app">
+        {!isLaunched && <Countdown onComplete={() => setIsLaunched(true)} />}
         <Navbar />
 
         <Routes>
