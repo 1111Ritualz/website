@@ -12,7 +12,7 @@ const Hero = () => {
 
     return (
         <>
-            <section style={{
+            <section className="hero-main-section" style={{
                 height: "100vh",
                 width: "100%",
                 position: "relative",
@@ -41,11 +41,13 @@ const Hero = () => {
                 }
                 @media (max-width: 768px) {
                     .hero-content { padding: 0 1.5rem !important; }
+                    .hero-main-section { height: 70vh !important; }
                 }
             `}</style>
 
                 {/* Background Video */}
                 <video
+                    className="hero-video"
                     style={{
                         position: "absolute", top: 0, left: 0,
                         width: "100%", height: "100%",

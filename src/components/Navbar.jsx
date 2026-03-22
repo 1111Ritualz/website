@@ -184,7 +184,7 @@ const Navbar = () => {
                 </button>
                 <img src={logo} alt="11:11 Ritualz" style={{ height: '60px', borderRadius: '4px', marginBottom: '1rem' }} />
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
+                {/* <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link> */}
                 {user ? (
                     <>
                         <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>

@@ -20,10 +20,10 @@ const ProductGrid = ({ title, products, id }) => {
                     }
                 }
             `}</style>
-            <div className="text-center" style={{ marginBottom: '2rem' }}>
+            {/* <div className="text-center" style={{ marginBottom: '2rem' }}>
                 <h2>{title}</h2>
                 <a href="/shop" style={{ textDecoration: 'underline', fontStyle: 'italic' }}>View all</a>
-            </div>
+            </div> */}
 
             <div className="product-grid-wrapper">
                 {products.map(product => (
