@@ -4,11 +4,11 @@
 :root {
   --color-gold: #D4AF37;
   --color-gold-light: #F3E5AB;
-  --color-dark: #121212;
+  --color-dark: #3D3935; /* Softer Deep Espresso Grey */
   --color-cream: #FAF9F6;
-  --color-grey: #333333;
-  --color-text: #1d1d1f;
-  --color-text-light: #6e6e73;
+  --color-grey: #5D5954; /* Softer secondary grey */
+  --color-text: #2D2926;
+  --color-text-light: #7E7975;
   
   --font-primary: 'Outfit', sans-serif;
   --font-serif: 'Playfair Display', serif;
@@ -123,4 +123,40 @@ p {
 
 .fade-in {
   animation: fadeIn 1s ease forwards;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.2rem;
+  }
+
+  .section-padding {
+    padding: 3rem 0;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
 }

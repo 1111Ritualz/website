@@ -1,16 +1,33 @@
 import React from 'react';
 
-const ProductGrid = ({ title, products }) => {
+const ProductGrid = ({ title, products, id }) => {
     return (
-        <section className="section-padding container">
-            <div className="text-center" style={{ marginBottom: '3rem' }}>
+        <section id={id} className="container" style={{ padding: '3rem 2rem' }}>
+            <style>{`
+                .product-grid-wrapper {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 2rem;
+                    justify-content: center;
+                }
+                .product-card {
+                    text-align: center;
+                    width: 350px;
+                }
+                @media (max-width: 480px) {
+                    .product-card {
+                        width: 100%;
+                    }
+                }
+            `}</style>
+            <div className="text-center" style={{ marginBottom: '2rem' }}>
                 <h2>{title}</h2>
                 <a href="/shop" style={{ textDecoration: 'underline', fontStyle: 'italic' }}>View all</a>
             </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
+            <div className="product-grid-wrapper">
                 {products.map(product => (
-                    <div key={product.id} style={{ textAlign: 'center', width: '350px' }}>
+                    <div key={product.id} className="product-card">
                         <div style={{ position: 'relative', overflow: 'hidden', marginBottom: '1rem', aspectRatio: '1/1' }}>
                             <img
                                 src={product.image}
@@ -27,7 +44,9 @@ const ProductGrid = ({ title, products }) => {
                             </span>
                         </div>
                         <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{product.name}</h3>
-                        <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>{product.price}</p>
+                        {product.price && (
+                            <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>{product.price}</p>
+                        )}
                     </div>
                 ))}
             </div>

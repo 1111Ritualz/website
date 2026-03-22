@@ -4,7 +4,7 @@ export const products = [
     {
         id: 1,
         name: "OCEAN'S SHIELD",
-        price: "₹ 2,100",
+        // price: "₹ 2,100",
         image: oceanshield,
         category: "Aura Cleansing"
     }
