@@ -105,19 +105,30 @@ const Countdown = ({ onComplete }) => {
                     margin-top: 0.5rem;
                 }
                 .countdown-subtitle {
-                    font-size: clamp(1rem, 2vw, 1.4rem);
-                    color: var(--color-gold-light);
-                    letter-spacing: 3px;
+                    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+                    color: var(--color-gold);
+                    letter-spacing: 4px;
                     text-transform: uppercase;
-                    margin-bottom: 1rem;
+                    margin-bottom: 0.5rem;
+                    opacity: 0.8;
                 }
                 @media (max-width: 768px) {
-                    .countdown-display { gap: 1.5rem; }
+                    .countdown-display { gap: 1.5rem; margin: 2rem 0; }
+                    .countdown-num { font-size: 3rem; }
+                    .countdown-label { font-size: 0.7rem; letter-spacing: 1px; }
                 }
             `}</style>
 
             <p className="countdown-subtitle fade-in">Prepare for the Ritual</p>
-            <h1 style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', letterSpacing: '4px', marginBottom: '1rem' }}>
+
+            <h1 className="fade-in" style={{ 
+                fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+                letterSpacing: '8px', 
+                marginBottom: '1.5rem',
+                color: 'var(--color-gold-light)',
+                fontWeight: '300',
+                textTransform: 'uppercase'
+            }}>
                 11:11 Ritualz
             </h1>
 
@@ -136,7 +147,15 @@ const Countdown = ({ onComplete }) => {
                 </div>
             </div>
 
-            <div style={{ maxWidth: '600px', margin: '0 auto', fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', fontStyle: 'italic', letterSpacing: '1px' }}>
+            <div className="fade-in" style={{ 
+                maxWidth: '600px', 
+                margin: '0 auto', 
+                fontSize: 'clamp(1rem, 1.5vw, 1.3rem)', 
+                color: 'rgba(255,255,255,0.8)', 
+                fontStyle: 'italic', 
+                letterSpacing: '1px',
+                padding: '0 1rem'
+            }}>
                 The ocean is calling. See you at 6:30 PM IST.
             </div>
 
