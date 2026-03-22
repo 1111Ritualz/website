@@ -15,11 +15,13 @@ import ForgotPassword from './components/ForgotPassword';
 import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Account from './components/Account';
+import Narrative from './components/Narrative';
+import Readings from './components/Readings';
 import { products } from './data';
 
 function App() {
   // Filter products for different sections
-  const newEnergies = products.filter(p => p.category === 'New Energies').slice(0, 4);
+  const newEnergies = products.filter(p => p.category === 'Aura Cleansing');
   const mysticMix = products.filter(p => p.category === 'Mystic Mix');
 
   return (
@@ -31,15 +33,16 @@ function App() {
           <Route path="/" element={
             <>
               <Hero />
-              <AumatrixSection />
+              <Narrative />
+              {/* <AumatrixSection /> */}
               <ProductGrid title="New Energies" products={newEnergies} />
-              <ProductGrid title="Mystic Mix Bracelets" products={mysticMix} />
-              <CollectionList />
-              <div className="section-padding container text-center">
+              {/* <ProductGrid title="Mystic Mix Bracelets" products={mysticMix} /> */}
+              {/* <CollectionList /> */}
+              {/* <div className="section-padding container text-center">
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>ZODIAC MIXEL BRACELET 2026</h2>
                 <p>Premium quality gemstones. Loved by soulstars.</p>
                 <button className="btn" style={{ marginTop: '2rem' }}>Shop Zodiac Collection</button>
-              </div>
+              </div> */}
               <Founder />
               <Testimonials />
             </>
@@ -49,6 +52,7 @@ function App() {
           <Route path="/verify" element={<Verify />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/readings" element={<Readings />} />
           <Route path="/account" element={
             <ProtectedRoute>
               <Account />

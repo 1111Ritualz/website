@@ -32,7 +32,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="container section-padding" style={{ maxWidth: '400px', margin: '0 auto' }}>
+        <div className="container section-padding" style={{ maxWidth: '400px', margin: '0 auto', paddingTop: '120px' }}>
             <h2 className="text-center" style={{ marginBottom: '2rem' }}>Sign Up</h2>
             {error && <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

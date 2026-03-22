@@ -1,5 +1,5 @@
 import React from "react";
-import heroVideo from "../assets/videos/richvid.mp4";
+import heroVideo from "../assets/videos/1111.mp4";
 
 const Hero = () => {
     const heroStyles = {
@@ -22,7 +22,7 @@ const Hero = () => {
         height: "100%",
         objectFit: "cover",
         zIndex: 0,
-        filter: "brightness(0.6)",
+        filter: "brightness(1)",
     };
 
     const overlayStyles = {
@@ -61,9 +61,12 @@ const Hero = () => {
                     Welcome to 1111 Richualz
                 </h1>
                 <p style={{ fontSize: "1.2rem", marginBottom: "2rem", color: "white" }}>
-                    Making spirituality simple through lightcoded products.
+                    Pause. Cleanse. Begin Again.
+                    Cleanse More Than Your Body
+
                 </p>
-                <button className="btn">Explore Collection</button>
+                <button className="btn">Start Your first ritual, start with Ocean’s Shield.
+                </button>
             </div>
         </section>
     );

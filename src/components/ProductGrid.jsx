@@ -8,9 +8,9 @@ const ProductGrid = ({ title, products }) => {
                 <a href="/shop" style={{ textDecoration: 'underline', fontStyle: 'italic' }}>View all</a>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
                 {products.map(product => (
-                    <div key={product.id} style={{ group: 'hover' }}>
+                    <div key={product.id} style={{ textAlign: 'center', width: '350px' }}>
                         <div style={{ position: 'relative', overflow: 'hidden', marginBottom: '1rem', aspectRatio: '1/1' }}>
                             <img
                                 src={product.image}
