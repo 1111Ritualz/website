@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles, Download } from 'lucide-react';
+import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles } from 'lucide-react';
 import { products } from '../data';
 import oc1 from '../assets/images/oc1.jpeg';
 import oc2 from '../assets/images/oc2.jpeg';
 import oc3 from '../assets/images/oc3.jpeg';
 import ocvid from '../assets/videos/ocvid.mp4';
-import qrImage from '../assets/images/qr.jpeg';
-import playlistCover from '../assets/images/music_playlist_cover.png';
+
+import ingSalt from '../assets/images/ingredient_sea_salt_1776526963161.png';
+import ingBay from '../assets/images/ingredient_bay_leaves_1776527110544.png';
+import ingRosemary from '../assets/images/ingredient_rosemary_1776527008835.png';
+import ingLavender from '../assets/images/ingredient_lavender_1776527024326.png';
+import ingCardamom from '../assets/images/ing_cardamom_1776527404764.png';
+import ingCamphor from '../assets/images/cam.jpeg';
 
 const ingredients = [
-    { name: 'Unrefined Sea Salt', desc: 'Mineral-rich, deeply cleansing', icon: '🌊' },
-    { name: 'Bay Leaves', desc: 'Known for purification', icon: '🌿' },
-    { name: 'Rosemary', desc: 'Supports clarity', icon: '🌱' },
-    { name: 'Lavender', desc: 'Calms the body and mind', icon: '💜' },
-    { name: 'Cardamom', desc: 'Balances and uplifts', icon: '✨' },
-    { name: 'Camphor', desc: 'Deeply refreshing and resetting', icon: '❄️' },
+    { name: 'Unrefined Sea Salt', desc: 'Mineral-rich, deeply cleansing', icon: ingSalt },
+    { name: 'Bay Leaves', desc: 'Known for purification', icon: ingBay },
+    { name: 'Rosemary', desc: 'Supports clarity', icon: ingRosemary },
+    { name: 'Lavender', desc: 'Calms the body and mind', icon: ingLavender },
+    { name: 'Cardamom', desc: 'Balances and uplifts', icon: ingCardamom },
+    { name: 'Camphor', desc: 'Deeply refreshing and resetting', icon: ingCamphor },
 ];
 const steps = [
     { number: '01', label: 'Add', desc: "Two tablespoons to warm water.\nLet it open." },
@@ -278,13 +283,24 @@ const ProductPage = () => {
                                 }}
                             >
                                 <motion.div
-                                    style={{ fontSize: '3rem', marginBottom: '1.5rem', display: 'block' }}
+                                    style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
                                     animate={{
                                         y: [0, -10, 0],
                                     }}
                                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                                 >
-                                    {ing.icon}
+                                    <img
+                                        src={ing.icon}
+                                        alt={ing.name}
+                                        style={{
+                                            width: '70px',
+                                            height: '70px',
+                                            objectFit: 'cover',
+                                            borderRadius: '50%',
+                                            border: '2px solid rgba(212,175,55,0.3)',
+                                            boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                                        }}
+                                    />
                                 </motion.div>
                                 <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', fontSize: '1.3rem', marginBottom: '0.8rem' }}>
                                     {ing.name}
@@ -502,106 +518,6 @@ const ProductPage = () => {
                 </div>
             </section>
 
-            {/* ── AUDIO EXPERIENCE ── */}
-            <section style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                    gap: '4rem',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
-                    border: '1px solid rgba(212,175,55,0.2)',
-                    borderRadius: '8px',
-                    padding: '4rem'
-                }}>
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <p style={{ color: 'var(--color-gold)', letterSpacing: '3px', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-                            The Playlist
-                        </p>
-                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 3vw, 3.5rem)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
-                            Curated Frequency
-                        </h2>
-                        <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '2rem' }}>
-                            Scan the QR code below to access our custom meditative playlist, designed to accompany you through the ritual. Frequencies tuned to deepen relaxation and foster release.
-                        </p>
-                        
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start' }}>
-                            <div style={{ 
-                                padding: '1rem', 
-                                backgroundColor: '#fff', 
-                                borderRadius: '8px',
-                                display: 'inline-block'
-                            }}>
-                                <img src={qrImage} alt="Playlist QR Code" style={{ width: '150px', height: '150px', objectFit: 'contain' }} />
-                            </div>
-                            <a 
-                                href={qrImage} 
-                                download="Ritualz_Playlist_QR.jpeg"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    color: 'var(--color-gold)',
-                                    textDecoration: 'none',
-                                    fontFamily: 'var(--font-serif)',
-                                    fontSize: '1rem',
-                                    border: '1px solid var(--color-gold)',
-                                    padding: '0.8rem 1.5rem',
-                                    borderRadius: '4px',
-                                    transition: 'all 0.3s'
-                                }}
-                                onMouseOver={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'var(--color-gold)';
-                                    e.currentTarget.style.color = 'var(--color-dark)';
-                                }}
-                                onMouseOut={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                    e.currentTarget.style.color = 'var(--color-gold)';
-                                }}
-                            >
-                                <Download size={18} />
-                                Download QR
-                            </a>
-                        </div>
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        style={{ position: 'relative' }}
-                    >
-                        <img 
-                            src={playlistCover} 
-                            alt="Playlist Cover" 
-                            style={{ 
-                                width: '100%', 
-                                aspectRatio: '1/1', 
-                                objectFit: 'cover', 
-                                borderRadius: '8px',
-                                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
-                            }} 
-                        />
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '20px',
-                            left: '20px',
-                            right: '20px',
-                            background: 'rgba(0,0,0,0.6)',
-                            backdropFilter: 'blur(10px)',
-                            padding: '1.5rem',
-                            borderRadius: '8px',
-                            border: '1px solid rgba(212,175,55,0.2)'
-                        }}>
-                            <h3 style={{ fontFamily: 'var(--font-serif)', color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem' }}>Ocean's Release</h3>
-                            <p style={{ color: 'var(--color-gold)', fontSize: '0.9rem', margin: 0 }}>432Hz Ambient Frequencies</p>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
 
             {/* ── THE ORIGIN ── */}
             <section style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>

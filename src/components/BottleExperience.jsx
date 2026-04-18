@@ -13,6 +13,18 @@ const BottleExperience = () => {
     const { scrollYProgress } = useScroll();
     const [hoveredIndex, setHoveredIndex] = React.useState(null);
 
+    const [isMobile, setIsMobile] = React.useState(typeof window !== 'undefined' ? window.innerWidth <= 768 : false);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (typeof window !== 'undefined') setIsMobile(window.innerWidth <= 768);
+        };
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
     // Scale and subtle floating effect
     const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.9, 1.05, 1.05, 0.95]);
     const yFloat = useTransform(scrollYProgress, [0, 1], [0, -30]);
@@ -147,7 +159,7 @@ const BottleExperience = () => {
                     pointer-events: none;
                     font-weight: bold;
                 }
-                    .bg-watermark-ritualz {
+                .bg-watermark-ritualz {
                     position: absolute;
                     bottom: 300px;
                     font-size: 14vw;
@@ -157,6 +169,19 @@ const BottleExperience = () => {
                     z-index: 1;
                     pointer-events: none;
                     font-weight: bold;
+                }
+                .mobile-ingredients-grid {
+                    display: none;
+                }
+                .mobile-ingredient-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                    padding: 1.5rem;
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(212, 175, 55, 0.1);
+                    border-radius: 12px;
                 }
                 @media (max-width: 1200px) {
                     .bottle-ritual-wrapper { transform: scale(0.85); height: 500px; margin-top: 100px; }
@@ -169,7 +194,20 @@ const BottleExperience = () => {
                 @media (max-width: 768px) {
                     .bottle-container { width: 200px; height: 300px; }
                     .experience-title { font-size: 2rem; }
-                    .bottle-ritual-wrapper { transform: scale(0.6); height: 400px; margin-top: 50px; }
+                    .bottle-ritual-wrapper { transform: none; height: auto; margin-top: 0px; margin-bottom: 2rem; }
+                    .mobile-ingredients-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 1.5rem;
+                        width: 100%;
+                        max-width: 600px;
+                        margin: 0 auto;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .mobile-ingredients-grid {
+                        grid-template-columns: 1fr;
+                    }
                 }
             `}</style>
 
@@ -206,7 +244,7 @@ const BottleExperience = () => {
                     <img src={bottleImg} alt="Ocean's Shield" className="bottle-image" />
                 </motion.div>
 
-                {ingredients.map((ing, i) => {
+                {!isMobile && ingredients.map((ing, i) => {
                     const isLeftSide = ['Sea Salt', 'Lavender', 'Cardamom'].includes(ing.name);
 
                     return (
@@ -298,7 +336,6 @@ const BottleExperience = () => {
                                 }}>
                                     {ing.benefits}
                                 </p>
-                                {/* Arrow/Triangle */}
                                 <div style={{
                                     position: 'absolute',
                                     top: '50%',
@@ -318,6 +355,27 @@ const BottleExperience = () => {
                     );
                 })}
             </div>
+
+            {isMobile && (
+                <div className="mobile-ingredients-grid">
+                    {ingredients.map((ing, idx) => (
+                        <motion.div 
+                            key={idx} 
+                            className="mobile-ingredient-item"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 }}
+                        >
+                            <div className="ingredient-img-container" style={{ marginBottom: '1rem', width: '90px', height: '90px' }}>
+                                <img src={ing.img} alt={ing.name} />
+                            </div>
+                            <h4 style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-serif)', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{ing.name}</h4>
+                            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>{ing.benefits}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            )}
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

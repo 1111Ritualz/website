@@ -124,7 +124,7 @@ const Navbar = () => {
                         src={logo}
                         alt="11:11 Ritualz"
                         style={{
-                            height: shouldShowBackground ? '40px' : '50px',
+                            height: shouldShowBackground ? '70px' : '70px',
                             transition: 'height 0.3s ease',
                             borderRadius: '4px',
                         }}
@@ -182,7 +182,7 @@ const Navbar = () => {
                 >
                     <X size={28} />
                 </button>
-                <img src={logo} alt="11:11 Ritualz" style={{ height: '60px', borderRadius: '4px', marginBottom: '1rem' }} />
+                <img src={logo} alt="11:11 Ritualz" style={{ height: '80px', borderRadius: '4px', marginBottom: '1rem' }} />
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
                 <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
                 {user ? (

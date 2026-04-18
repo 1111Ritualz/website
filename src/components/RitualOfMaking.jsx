@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import makingImg from '../assets/images/making.jpg';
+import makingImg from '../assets/images/maker.jpeg';
 
 const RitualOfMaking = () => {
     return (

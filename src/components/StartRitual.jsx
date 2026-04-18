@@ -28,7 +28,7 @@ const StartRitual = () => {
                             fontWeight: 'bold'
                         }}
                     >
-                        11:11
+
                     </motion.div>
 
                     <motion.div
