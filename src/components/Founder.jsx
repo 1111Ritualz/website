@@ -3,7 +3,7 @@ import ritualmaker from '../assets/images/ritualmaker.jpeg';
 
 const Founder = () => {
     return (
-        <section style={{ backgroundColor: '#f5f0e8', padding: '5rem 0' }}>
+        <section style={{ backgroundColor: 'var(--color-cream)', padding: '5rem 0' }}>
             <style>{`
                 .founder-layout {
                     display: grid;

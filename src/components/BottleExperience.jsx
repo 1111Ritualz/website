@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import bottleImg from '../assets/images/oc2.jpeg';
 import saltImg from '../assets/images/ingredient_sea_salt_1776526963161.png';
 import rosemaryImg from '../assets/images/ingredient_rosemary_1776527008835.png';
@@ -46,7 +47,8 @@ const BottleExperience = () => {
     return (
         <section style={{
             minHeight: '100vh',
-            backgroundColor: 'var(--color-cream)',
+            backgroundColor: 'var(--color-dark)',
+            color: '#fff',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -137,9 +139,20 @@ const BottleExperience = () => {
                 .bg-watermark {
                     position: absolute;
                     bottom: 300px;
-                    font-size: 16vw;
+                    font-size: 14vw;
                     font-family: var(--font-serif);
-                    color: rgba(0,0,0,0.015);
+                    color: rgba(255, 255, 255, 0.05);
+                    white-space: nowrap;
+                    z-index: 1;
+                    pointer-events: none;
+                    font-weight: bold;
+                }
+                    .bg-watermark-ritualz {
+                    position: absolute;
+                    bottom: 300px;
+                    font-size: 14vw;
+                    font-family: var(--font-serif);
+                    color: rgba(0,0,0,0.5);
                     white-space: nowrap;
                     z-index: 1;
                     pointer-events: none;
@@ -160,7 +173,7 @@ const BottleExperience = () => {
                 }
             `}</style>
 
-            <div className="bg-watermark">11:11 RITUALZ</div>
+            {/* <div className="bg-watermark">Ocean's Shield</div> */}
 
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -169,9 +182,20 @@ const BottleExperience = () => {
                 className="experience-title-container"
             >
                 <p style={{ color: 'var(--color-gold)', letterSpacing: '6px', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '1.5rem', fontWeight: 600 }}>
-                    The Composition
+                    Ocean's Shield.
                 </p>
-                <h2 className="experience-title">The Alchemy of Ocean's Shield</h2>
+                <h2 className="experience-title" style={{ marginBottom: '2rem', color: '#fff' }}>The Ocean in a Jar.</h2>
+                <div style={{ maxWidth: '800px', margin: '0 auto', color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.1rem', lineHeight: 1.8 }}>
+                    <p style={{ marginBottom: '1.5rem' }}>
+                        Crafted to cleanse the energetic body, the field that lives just beyond your skin and carries everything your days bring.
+                    </p>
+                    <p style={{ marginBottom: '1.5rem' }}>
+                        Made with real herbs. Real salt. Specific mantras playing through every batch of production.
+                    </p>
+                    <p style={{ fontWeight: 600, color: '#fff' }}>
+                        No essential oils. No machines. No shortcuts. Ever.
+                    </p>
+                </div>
             </motion.div>
 
             <div className="bottle-ritual-wrapper">
@@ -239,20 +263,21 @@ const BottleExperience = () => {
                                     top: '50%',
                                     transform: 'translateY(-50%)',
                                     width: '260px',
-                                    background: 'rgba(255, 255, 255, 0.98)',
+                                    background: 'rgba(20, 20, 20, 0.98)',
                                     backdropFilter: 'blur(15px)',
                                     border: '1px solid var(--color-gold)',
                                     padding: '1.5rem',
                                     borderRadius: '16px',
-                                    boxShadow: '0 25px 50px rgba(0,0,0,0.15)',
+                                    boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                                     textAlign: 'left',
                                     zIndex: 101,
-                                    pointerEvents: 'none'
+                                    pointerEvents: 'none',
+                                    color: '#fff'
                                 }}
                             >
                                 <h4 style={{
                                     fontFamily: 'var(--font-serif)',
-                                    color: 'var(--color-dark)',
+                                    color: '#fff',
                                     fontSize: '1.2rem',
                                     marginBottom: '0.8rem',
                                     borderBottom: '1px solid rgba(212,175,55,0.3)',
@@ -266,7 +291,7 @@ const BottleExperience = () => {
                                 </h4>
                                 <p style={{
                                     fontSize: '0.95rem',
-                                    color: 'var(--color-text-light)',
+                                    color: 'rgba(255, 255, 255, 0.7)',
                                     lineHeight: 1.6,
                                     fontStyle: 'italic',
                                     fontWeight: '400'
@@ -281,7 +306,7 @@ const BottleExperience = () => {
                                     transform: 'translateY(-50%) rotate(45deg)',
                                     width: '16px',
                                     height: '16px',
-                                    background: 'white',
+                                    background: 'rgba(20, 20, 20, 0.98)',
                                     borderLeft: isLeftSide ? 'none' : '1px solid var(--color-gold)',
                                     borderBottom: isLeftSide ? 'none' : '1px solid var(--color-gold)',
                                     borderRight: isLeftSide ? '1px solid var(--color-gold)' : 'none',
@@ -293,6 +318,28 @@ const BottleExperience = () => {
                     );
                 })}
             </div>
+
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                style={{ textAlign: 'center', marginTop: '4rem', zIndex: 10 }}
+            >
+                <Link to="/product/1" className="btn" style={{
+                    padding: '1.2rem 3.5rem',
+                    backgroundColor: '#fff',
+                    color: 'var(--color-dark)',
+                    border: 'none',
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    letterSpacing: '2px'
+                }}>
+                    START YOUR RITUAL
+                </Link>
+                <p style={{ marginTop: '2rem', fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.7)', fontStyle: 'italic', maxWidth: '600px', margin: '2rem auto 0' }}>
+                    You don't need more time. You just need a moment that's yours.
+                </p>
+            </motion.div>
         </section>
     );
 };

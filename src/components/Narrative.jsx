@@ -118,7 +118,9 @@ const Narrative = () => {
                         THE IDEA
                     </p>
                     <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.2, marginBottom: '2rem', color: 'var(--color-dark)' }}>
-                        Not all cleansing is visible.
+                        You live far from the ocean...<br />
+                        We know<br />
+                        That is exactly why we made Ocean's Shield
                     </h2>
                     <div style={{ width: '50px', height: '2px', backgroundColor: 'var(--color-gold)', margin: '0 auto 2rem' }} />
                     <p style={{ fontSize: '1.15rem', lineHeight: 1.9, color: 'var(--color-text-light)' }}>
@@ -131,7 +133,7 @@ const Narrative = () => {
             {/* ── OCEAN'S SHIELD INGREDIENTS (Animated) ── */}
             <section style={{ backgroundColor: 'var(--color-dark)', padding: '8rem 2rem' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                    <motion.div 
+                    <motion.div
                         style={{ textAlign: 'center', marginBottom: '4rem' }}
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -156,7 +158,7 @@ const Narrative = () => {
                         Crafted With
                     </p>
 
-                    <motion.div 
+                    <motion.div
                         className="narrative-ingredients-grid"
                         initial="hidden"
                         whileInView="visible"
@@ -172,8 +174,8 @@ const Narrative = () => {
                         }}
                     >
                         {ingredients.map((ing) => (
-                            <motion.div 
-                                key={ing.name} 
+                            <motion.div
+                                key={ing.name}
                                 variants={{
                                     hidden: { opacity: 0, scale: 0.8, y: 30 },
                                     visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6 } }
@@ -186,9 +188,9 @@ const Narrative = () => {
                                     cursor: 'default',
                                 }}
                             >
-                                <motion.div 
+                                <motion.div
                                     style={{ fontSize: '3rem', marginBottom: '1.5rem', display: 'block' }}
-                                    animate={{ 
+                                    animate={{
                                         y: [0, -10, 0],
                                     }}
                                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -204,16 +206,16 @@ const Narrative = () => {
                             </motion.div>
                         ))}
                     </motion.div>
-                    
-                    <motion.div 
+
+                    <motion.div
                         style={{ textAlign: 'center', marginTop: '4rem' }}
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                     >
-                        <a 
-                            href="#/product/1" 
-                            style={{ 
+                        <a
+                            href="#/product/1"
+                            style={{
                                 display: 'inline-block',
                                 padding: '1.2rem 3rem',
                                 border: '1px solid var(--color-gold)',

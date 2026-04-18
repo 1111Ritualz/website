@@ -14,7 +14,7 @@ const Contact = () => {
                     {/* Contact Info */}
                     <div>
                         <div style={{ marginBottom: '3rem' }}>
-                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>We're here for you.</h3>
+                            <h3 style={{ fontSize: '1.4rem', marginBottom: '1.5rem' }}>We Are Here To Ritualize Your Everyday</h3>
                             <p style={{ color: 'var(--color-text-light)', lineHeight: 1.8 }}>
                                 Whether you have a question about a ritual, your order, or just want to share your experience, we'd love to hear from you.
                             </p>
@@ -46,9 +46,14 @@ const Contact = () => {
                                 <input type="text" style={{ width: '100%', padding: '0.8rem', border: '1px solid #eee', borderRadius: '4px' }} />
                             </div>
                             <div>
+                                <label style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>Phone</label>
+                                <input type="number" style={{ width: '100%', padding: '0.8rem', border: '1px solid #eee', borderRadius: '4px' }} />
+                            </div>
+                            <div>
                                 <label style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>Email</label>
                                 <input type="email" style={{ width: '100%', padding: '0.8rem', border: '1px solid #eee', borderRadius: '4px' }} />
                             </div>
+
                             <div>
                                 <label style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>Message</label>
                                 <textarea rows="5" style={{ width: '100%', padding: '0.8rem', border: '1px solid #eee', borderRadius: '4px' }}></textarea>

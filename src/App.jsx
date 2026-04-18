@@ -21,6 +21,8 @@ import BottleExperience from './components/BottleExperience';
 import RitualSection from './components/RitualSection';
 import OceanVisionSection from './components/OceanVisionSection';
 import FAQSection from './components/FAQSection';
+import StartRitual from './components/StartRitual';
+import RitualOfMaking from './components/RitualOfMaking';
 import About from './components/About';
 import Contact from './components/Contact';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -51,11 +53,13 @@ function App() {
           <Route path="/" element={
             <>
               <Hero />
-              <BottleExperience />
               <RitualSection />
-              <ProductGrid id="new-energies" title="Essential Rituals" products={newEnergies} />
-              <FAQSection />
+              <BottleExperience />
+              {/* <ProductGrid id="new-energies" title="Essential Rituals" products={newEnergies} /> */}
+              {/* <FAQSection /> */}
               <Founder />
+              <RitualOfMaking />
+              <StartRitual />
               {/* <Testimonials /> */}
             </>
           } />

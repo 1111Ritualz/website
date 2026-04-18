@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import aboutUsImg from '../assets/images/aboutus.jpeg';
 
 const About = () => {
     return (
@@ -12,7 +13,10 @@ const About = () => {
                     transition={{ duration: 0.8 }}
                     style={{ textAlign: 'center', marginBottom: '4rem' }}
                 >
-                    <span style={{ color: 'var(--color-gold)', letterSpacing: '8px', fontSize: '0.9rem', textTransform: 'uppercase' }}>OUR STORY</span>
+                    <span style={{ color: 'var(--color-gold)', letterSpacing: '8px', fontSize: '0.9rem', textTransform: 'uppercase', display: 'block', marginBottom: '3rem' }}>OUR STORY</span>
+                    <div style={{ width: '100%', height: '450px', overflow: 'hidden', borderRadius: '4px' }}>
+                        <img src={aboutUsImg} alt="11:11 Ritualz" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
                 </motion.div>
 
                 <motion.div 

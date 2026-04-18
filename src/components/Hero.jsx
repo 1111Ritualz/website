@@ -74,7 +74,7 @@ const Hero = () => {
 
             {/* CTA Bar below video */}
             <div style={{
-                backgroundColor: 'var(--color-cream)',
+                backgroundColor: 'var(--color-dark)',
                 padding: '5rem 2.5rem',
                 textAlign: 'center',
                 borderBottom: '1px solid rgba(212, 175, 55, 0.1)'
@@ -107,7 +107,7 @@ const Hero = () => {
                 >
                     Begin the Ritual
                 </Link>
-                <p style={{ marginTop: '2rem', fontSize: '2rem', color: 'var(--color-text-light)', letterSpacing: '1px' }}>
+                <p style={{ marginTop: '2rem', fontSize: '2rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '1px' }}>
                     No essential oils. No machines. Made in small batches with intention.
                 </p>
             </div>

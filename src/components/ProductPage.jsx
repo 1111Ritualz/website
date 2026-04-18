@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles } from 'lucide-react';
+import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles, Download } from 'lucide-react';
 import { products } from '../data';
 import oc1 from '../assets/images/oc1.jpeg';
 import oc2 from '../assets/images/oc2.jpeg';
 import oc3 from '../assets/images/oc3.jpeg';
 import ocvid from '../assets/videos/ocvid.mp4';
+import qrImage from '../assets/images/qr.jpeg';
+import playlistCover from '../assets/images/music_playlist_cover.png';
 
 const ingredients = [
     { name: 'Unrefined Sea Salt', desc: 'Mineral-rich, deeply cleansing', icon: '🌊' },
@@ -16,13 +18,13 @@ const ingredients = [
     { name: 'Cardamom', desc: 'Balances and uplifts', icon: '✨' },
     { name: 'Camphor', desc: 'Deeply refreshing and resetting', icon: '❄️' },
 ];
-
 const steps = [
-    { number: '01', label: 'Add', desc: "Two spoons of Ocean's Shield to water. If you're a shower person, add the salt to a mug." },
-    { number: '02', label: 'Pause', desc: "Let it dissolve. Don't rush this part." },
-    { number: '03', label: 'Listen', desc: 'Give it your words. Remember, water listens.' },
-    { number: '04', label: 'Pour', desc: 'Pour it all over yourself and just breathe.' },
-    { number: '05', label: 'Emerge', desc: 'Step out feeling more present in your present.' },
+    { number: '01', label: 'Add', desc: "Two tablespoons to warm water.\nLet it open." },
+    { number: '02', label: 'Pause', desc: "Allow it to dissolve.\nStay with the moment. Deep breathe three times." },
+    { number: '03', label: 'Speak', desc: "Say the affirmations out loud.\nLet them land." },
+    { number: '04', label: 'Pour', desc: "Slowly, from face downward.\nLet it move through you." },
+    { number: '05', label: 'Emerge', desc: "Step out unhurried.\nGive it a moment to settle." },
+    { number: '06', label: 'Listen', desc: "Listen to the silence.\nIt has much to say." }
 ];
 
 const benefitsList = [
@@ -177,7 +179,7 @@ const ProductPage = () => {
 
             {/* Main Product Section */}
             <section className="product-main-grid">
-                <motion.div 
+                <motion.div
                     className="product-image-container"
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -186,7 +188,7 @@ const ProductPage = () => {
                     <img src={product.image} alt={product.name} />
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                     className="product-info"
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -198,23 +200,30 @@ const ProductPage = () => {
                     <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.1 }}>
                         {product.name}
                     </h1>
-                    <div className="price-tag">₹ 2,100</div>
+                    <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '0rem' }}>
+                        Bathe in the tide of protection, Let your aura shine.
+                    </p>
+                    <div className="price-tag">₹ 1,099</div>
                     <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '2rem' }}>
-                        A sacred blend of mineral-rich unrefined sea salt and potent botanicals, energised to help you release the energetic weight of the day. This isn't just a bath salt; it's a tool for your evolution.
+                        Crafted with sea-kissed sea and protective herbs, who’s blend helps wash away negativity and creates a calming shield around your energy.
                     </p>
 
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Shield size={18} color="var(--color-gold)" />
-                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>ENERGISED</span>
+                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>NATURAL SCENT</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Zap size={18} color="var(--color-gold)" />
-                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>PURE POTENCY</span>
+                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>NO SYNTHETIC FRAGRANCE OILS</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Sparkles size={18} color="var(--color-gold)" />
-                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>RITUAL GRADE</span>
+                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>NATURAL INGREDIENTS</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <Sparkles size={18} color="var(--color-gold)" />
+                            <span style={{ fontSize: '0.85rem', letterSpacing: '1px' }}>HANDMADE</span>
                         </div>
                     </div>
 
@@ -231,7 +240,7 @@ const ProductPage = () => {
             {/* ── DAILY RESET / INGREDIENTS (Animated) ── */}
             <section style={{ backgroundColor: 'var(--color-dark)', padding: '8rem 2rem' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                    <motion.div 
+                    <motion.div
                         style={{ textAlign: 'center', marginBottom: '5rem' }}
                         initial="hidden"
                         whileInView="visible"
@@ -249,7 +258,7 @@ const ProductPage = () => {
                         </p>
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         className="narrative-ingredients-grid"
                         initial="hidden"
                         whileInView="visible"
@@ -257,8 +266,8 @@ const ProductPage = () => {
                         variants={staggerContainer}
                     >
                         {ingredients.map((ing) => (
-                            <motion.div 
-                                key={ing.name} 
+                            <motion.div
+                                key={ing.name}
                                 variants={fadeInUp}
                                 whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.03)' }}
                                 style={{
@@ -268,9 +277,9 @@ const ProductPage = () => {
                                     transition: 'all 0.3s',
                                 }}
                             >
-                                <motion.div 
+                                <motion.div
                                     style={{ fontSize: '3rem', marginBottom: '1.5rem', display: 'block' }}
-                                    animate={{ 
+                                    animate={{
                                         y: [0, -10, 0],
                                     }}
                                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -339,8 +348,8 @@ const ProductPage = () => {
                         </h2>
                         <ul style={{ listStyle: 'none', padding: 0 }}>
                             {benefitsList.map((b, i) => (
-                                <motion.li 
-                                    key={i} 
+                                <motion.li
+                                    key={i}
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.1 }}
@@ -361,7 +370,7 @@ const ProductPage = () => {
                             ))}
                         </ul>
                     </motion.div>
-                    <motion.div 
+                    <motion.div
                         style={{ position: 'relative' }}
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -375,39 +384,106 @@ const ProductPage = () => {
                 </div>
             </section>
 
-            {/* ── HOW TO USE ── */}
+            {/* ── THE PRACTICE ── */}
             <section style={{ backgroundColor: 'var(--color-dark)', padding: '8rem 2rem' }}>
+                <style>{`
+                    .method-cards-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 2rem;
+                        margin-bottom: 6rem;
+                    }
+                    .ritual-steps-grid {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 1.5rem;
+                    }
+                    @media (max-width: 968px) {
+                        .ritual-steps-grid {
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                        }
+                    }
+                    @media (max-width: 768px) {
+                        .method-cards-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                `}</style>
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                    <motion.div 
+                    <motion.div
                         style={{ textAlign: 'center', marginBottom: '5rem' }}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={fadeInUp}
                     >
-                        <p style={{ color: 'var(--color-gold)', letterSpacing: '3px', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                            The Practice
-                        </p>
-                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 3vw, 3.5rem)', color: '#fff' }}>
-                            How to Use
+                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.5rem, 4vw, 4rem)', color: '#fff', marginBottom: '2rem' }}>
+                            THE PRACTICE
+                        </h2>
+                        <div style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto' }}>
+                            <p>Three minutes.</p>
+                            <p>Every morning.</p>
+                            <p>That is all the ritual asks.</p>
+                        </div>
+                    </motion.div>
+
+                    {/* Method Cards */}
+                    <motion.div
+                        className="method-cards-grid"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <motion.div
+                            variants={fadeInUp}
+                            style={{ padding: '3rem', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}
+                        >
+                            <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', fontSize: '1.8rem', marginBottom: '1.5rem' }}>The Bucket</h3>
+                            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', lineHeight: 1.8 }}>
+                                2 tablespoons dissolved in warm water. After your shower, pour slowly from face to toe. This is the traditional method. This is how it was done for centuries before showers existed.
+                            </p>
+                        </motion.div>
+                        <motion.div
+                            variants={fadeInUp}
+                            style={{ padding: '3rem', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '4px' }}
+                        >
+                            <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', fontSize: '1.8rem', marginBottom: '1.5rem' }}>The Mug</h3>
+                            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', lineHeight: 1.8 }}>
+                                1 tablespoon in a mug of warm water. Pour at the end of your shower. Every single day.
+                            </p>
+                        </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                        style={{ textAlign: 'center', marginBottom: '3rem' }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeInUp}
+                    >
+                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', color: '#fff' }}>
+                            The Ritual
                         </h2>
                     </motion.div>
-                    <motion.div 
-                        className="narrative-steps-grid"
+
+                    <motion.div
+                        className="ritual-steps-grid"
                         variants={staggerContainer}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                     >
                         {steps.map((step) => (
-                            <motion.div 
-                                key={step.number} 
+                            <motion.div
+                                key={step.number}
                                 variants={fadeInUp}
                                 style={{
                                     padding: '3rem 1.5rem',
                                     backgroundColor: 'rgba(255,255,255,0.02)',
                                     border: '1px solid rgba(212,175,55,0.1)',
                                     textAlign: 'center', transition: 'all 0.3s',
+                                    display: 'flex', flexDirection: 'column', height: '100%'
                                 }}
                                 whileHover={{ borderColor: 'var(--color-gold)', transform: 'translateY(-5px)' }}
                             >
@@ -417,7 +493,7 @@ const ProductPage = () => {
                                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: 'var(--color-gold)', marginBottom: '1rem' }}>
                                     {step.label}
                                 </h3>
-                                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+                                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                                     {step.desc}
                                 </p>
                             </motion.div>
@@ -426,10 +502,111 @@ const ProductPage = () => {
                 </div>
             </section>
 
+            {/* ── AUDIO EXPERIENCE ── */}
+            <section style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '4rem',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(212,175,55,0.2)',
+                    borderRadius: '8px',
+                    padding: '4rem'
+                }}>
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <p style={{ color: 'var(--color-gold)', letterSpacing: '3px', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+                            The Playlist
+                        </p>
+                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 3vw, 3.5rem)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
+                            Curated Frequency
+                        </h2>
+                        <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '2rem' }}>
+                            Scan the QR code below to access our custom meditative playlist, designed to accompany you through the ritual. Frequencies tuned to deepen relaxation and foster release.
+                        </p>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start' }}>
+                            <div style={{ 
+                                padding: '1rem', 
+                                backgroundColor: '#fff', 
+                                borderRadius: '8px',
+                                display: 'inline-block'
+                            }}>
+                                <img src={qrImage} alt="Playlist QR Code" style={{ width: '150px', height: '150px', objectFit: 'contain' }} />
+                            </div>
+                            <a 
+                                href={qrImage} 
+                                download="Ritualz_Playlist_QR.jpeg"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    color: 'var(--color-gold)',
+                                    textDecoration: 'none',
+                                    fontFamily: 'var(--font-serif)',
+                                    fontSize: '1rem',
+                                    border: '1px solid var(--color-gold)',
+                                    padding: '0.8rem 1.5rem',
+                                    borderRadius: '4px',
+                                    transition: 'all 0.3s'
+                                }}
+                                onMouseOver={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'var(--color-gold)';
+                                    e.currentTarget.style.color = 'var(--color-dark)';
+                                }}
+                                onMouseOut={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                    e.currentTarget.style.color = 'var(--color-gold)';
+                                }}
+                            >
+                                <Download size={18} />
+                                Download QR
+                            </a>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        style={{ position: 'relative' }}
+                    >
+                        <img 
+                            src={playlistCover} 
+                            alt="Playlist Cover" 
+                            style={{ 
+                                width: '100%', 
+                                aspectRatio: '1/1', 
+                                objectFit: 'cover', 
+                                borderRadius: '8px',
+                                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                            }} 
+                        />
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '20px',
+                            left: '20px',
+                            right: '20px',
+                            background: 'rgba(0,0,0,0.6)',
+                            backdropFilter: 'blur(10px)',
+                            padding: '1.5rem',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(212,175,55,0.2)'
+                        }}>
+                            <h3 style={{ fontFamily: 'var(--font-serif)', color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem' }}>Ocean's Release</h3>
+                            <p style={{ color: 'var(--color-gold)', fontSize: '0.9rem', margin: 0 }}>432Hz Ambient Frequencies</p>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
             {/* ── THE ORIGIN ── */}
             <section style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div className="narrative-coastal-grid">
-                    <motion.div 
+                    <motion.div
                         style={{ position: 'relative' }}
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}

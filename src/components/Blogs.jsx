@@ -24,7 +24,7 @@ const Blogs = () => {
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
                     <span style={{ color: 'var(--color-gold)', letterSpacing: '8px', fontSize: '0.9rem', textTransform: 'uppercase' }}>JOURNAL</span>
-                    <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '3.5rem', marginTop: '1rem' }}>Ritual Blogs</h1>
+                    <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '3.5rem', marginTop: '1rem' }}>Ritualz Blogs</h1>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
