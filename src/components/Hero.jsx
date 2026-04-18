@@ -1,15 +1,9 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import heroVideo from "../assets/videos/1111.mp4";
 import logo from "../assets/images/logo.jpeg";
 
 const Hero = () => {
-    const scrollToSection = (id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     return (
         <>
             <section className="hero-main-section" style={{
@@ -34,7 +28,7 @@ const Hero = () => {
                 }
                 .hero-subtitle {
                     font-size: clamp(1rem, 2.5vw, 1.4rem);
-                    margin-bottom: 2rem;
+                    margin-bottom: 8rem;
                     color: white;
                     line-height: 1.8;
                     font-weight: 300;
@@ -66,23 +60,14 @@ const Hero = () => {
                 {/* Content */}
                 <div className="hero-content fade-in" style={{
                     position: "relative", zIndex: 2,
-                    maxWidth: "900px", padding: "0 2rem",
+                    maxWidth: "1000px", padding: "0 2rem",
                 }}>
-                    {/* <img
-                    src={logo}
-                    alt="11:11 Ritualz"
-                    style={{
-                        height: '100px', borderRadius: '12px',
-                        margin: '0 auto 2.5rem', display: 'block',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-                    }}
-                /> */}
-                    <h1 className="hero-title">
-                        Welcome to 11:11 Ritualz
-                    </h1>
-                    <p className="hero-subtitle">
-                        Pause. Cleanse. Begin Again.
-                        Cleanse More Than Just Your Body
+                    <h2 className="hero-title" style={{ fontSize: 'clamp(1.5rem, 5vw, 3.5rem)', lineHeight: 1.2 }}>
+                        Your shower cleans your skin.<br />
+                        Nothing cleans what it leaves behind.
+                    </h2>
+                    <p className="hero-subtitle" style={{ fontStyle: 'italic', fontSize: '1.4rem' }}>
+                        Until now
                     </p>
                 </div>
             </section>
@@ -94,21 +79,37 @@ const Hero = () => {
                 textAlign: 'center',
                 borderBottom: '1px solid rgba(212, 175, 55, 0.1)'
             }}>
-                <button
-                    onClick={() => scrollToSection('consistent-use')}
+                <Link
+                    to="/product/1"
                     className="btn"
                     style={{
                         backgroundColor: "#fff",
                         color: "var(--color-dark)",
                         border: "1px solid var(--color-gold)",
                         padding: '1.2rem 3rem',
-                        fontSize: '0.95rem',
+                        fontSize: '1.1rem',
                         boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        textDecoration: 'none',
+                        fontFamily: 'var(--font-serif)',
+                        letterSpacing: '1px',
+                        display: 'inline-block',
+                        transition: 'all 0.3s'
+                    }}
+                    onMouseOver={e => {
+                        e.currentTarget.style.backgroundColor = 'var(--color-gold)';
+                        e.currentTarget.style.color = '#fff';
+                    }}
+                    onMouseOut={e => {
+                        e.currentTarget.style.backgroundColor = '#fff';
+                        e.currentTarget.style.color = 'var(--color-dark)';
                     }}
                 >
-                    Start your first ritual, start with Ocean's Shield.
-                </button>
+                    Begin the Ritual
+                </Link>
+                <p style={{ marginTop: '2rem', fontSize: '2rem', color: 'var(--color-text-light)', letterSpacing: '1px' }}>
+                    No essential oils. No machines. Made in small batches with intention.
+                </p>
             </div>
         </>
     );

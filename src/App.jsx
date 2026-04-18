@@ -15,6 +15,23 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Account from './components/Account';
 import Narrative from './components/Narrative';
 import Countdown from './components/Countdown';
+import Shop from './components/Shop';
+import ProductPage from './components/ProductPage';
+import BottleExperience from './components/BottleExperience';
+import RitualSection from './components/RitualSection';
+import OceanVisionSection from './components/OceanVisionSection';
+import FAQSection from './components/FAQSection';
+import About from './components/About';
+import Contact from './components/Contact';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import ReturnPolicy from './components/ReturnPolicy';
+import DisclaimerPage from './components/DisclaimerPage';
+import ShippingPolicy from './components/ShippingPolicy';
+import SafetyInstructions from './components/SafetyInstructions';
+import IngredientsPage from './components/IngredientsPage';
+import FAQPage from './components/FAQPage';
+import Blogs from './components/Blogs';
+import RitualPage from './components/RitualPage';
 import { products } from './data';
 
 function App() {
@@ -34,8 +51,10 @@ function App() {
           <Route path="/" element={
             <>
               <Hero />
-              <Narrative />
-              <ProductGrid id="new-energies" title="New Energies" products={newEnergies} />
+              <BottleExperience />
+              <RitualSection />
+              <ProductGrid id="new-energies" title="Essential Rituals" products={newEnergies} />
+              <FAQSection />
               <Founder />
               {/* <Testimonials /> */}
             </>
@@ -45,7 +64,19 @@ function App() {
           <Route path="/verify" element={<Verify />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/logout" element={<Logout />} />
-          {/* <Route path="/readings" element={<Readings />} /> */}
+          <Route path="/ritual" element={<RitualPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/return-policy" element={<ReturnPolicy />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/safety-instructions" element={<SafetyInstructions />} />
+          <Route path="/ingredients" element={<IngredientsPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/account" element={
             <ProtectedRoute>
               <Account />

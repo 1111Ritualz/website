@@ -1,8 +1,8 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductGrid = ({ title, products, id }) => {
     return (
-        <section id={id} className="container" style={{ padding: '3rem 2rem' }}>
+        <section id={id} className="container" style={{ padding: '0rem 0rem' }}>
             <style>{`
                 .product-grid-wrapper {
                     display: flex;
@@ -13,6 +13,9 @@ const ProductGrid = ({ title, products, id }) => {
                 .product-card {
                     text-align: center;
                     width: 350px;
+                    text-decoration: none;
+                    color: inherit;
+                    display: block;
                 }
                 @media (max-width: 480px) {
                     .product-card {
@@ -20,14 +23,18 @@ const ProductGrid = ({ title, products, id }) => {
                     }
                 }
             `}</style>
-            {/* <div className="text-center" style={{ marginBottom: '2rem' }}>
-                <h2>{title}</h2>
-                <a href="/shop" style={{ textDecoration: 'underline', fontStyle: 'italic' }}>View all</a>
-            </div> */}
+            <div className="text-center" style={{ marginBottom: '4rem' }}>
+                <p style={{ color: 'var(--color-gold)', letterSpacing: '4px', textTransform: 'uppercase', fontSize: '0.8rem', marginBottom: '1rem' }}>
+                    Shop
+                </p>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 4vw, 3rem)' }}>{title}</h2>
+                <div style={{ width: '50px', height: '2px', backgroundColor: 'var(--color-gold)', margin: '1.5rem auto' }} />
+                {/* <a href="/shop" style={{ textDecoration: 'underline', fontStyle: 'italic' }}>View all</a> */}
+            </div>
 
             <div className="product-grid-wrapper">
                 {products.map(product => (
-                    <div key={product.id} className="product-card">
+                    <Link to={`/product/${product.id}`} key={product.id} className="product-card">
                         <div style={{ position: 'relative', overflow: 'hidden', marginBottom: '1rem', aspectRatio: '1/1' }}>
                             <img
                                 src={product.image}
@@ -43,11 +50,9 @@ const ProductGrid = ({ title, products, id }) => {
                                 {product.category}
                             </span>
                         </div>
-                        <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{product.name}</h3>
-                        {product.price && (
-                            <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>{product.price}</p>
-                        )}
-                    </div>
+                        <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>{product.name}</h3>
+                        <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>₹ 2,100</p>
+                    </Link>
                 ))}
             </div>
         </section>

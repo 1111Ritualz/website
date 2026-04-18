@@ -1,4 +1,4 @@
-import React from 'react';
+import { motion } from 'framer-motion';
 import oc1 from '../assets/images/oc1.jpeg';
 import oc2 from '../assets/images/oc2.jpeg';
 import oc3 from '../assets/images/oc3.jpeg';
@@ -128,51 +128,116 @@ const Narrative = () => {
                 </div>
             </section>
 
-            {/* ── OCEAN'S SHIELD INGREDIENTS ── */}
-            <section style={{ backgroundColor: 'var(--color-dark)', padding: '5rem 2rem' }}>
+            {/* ── OCEAN'S SHIELD INGREDIENTS (Animated) ── */}
+            <section style={{ backgroundColor: 'var(--color-dark)', padding: '8rem 2rem' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                    <motion.div 
+                        style={{ textAlign: 'center', marginBottom: '4rem' }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
                         <p style={{ color: 'var(--color-gold)', letterSpacing: '4px', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '1rem' }}>
                             Ocean's Shield
                         </p>
-                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#fff', marginBottom: '1rem' }}>
+                        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', color: '#fff', marginBottom: '1rem' }}>
                             Your Daily Reset
                         </h2>
-                        <p style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                        <p style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', fontSize: '1.2rem', marginBottom: '1.5rem' }}>
                             End the day clean. Completely.
                         </p>
-                        <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '600px', margin: '0 auto', fontSize: '1rem', lineHeight: 1.8 }}>
+                        <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', lineHeight: 1.8 }}>
                             Ocean's Shield is an energised bath salt designed to help you release what the day leaves behind.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <p style={{ textAlign: 'center', letterSpacing: '4px', textTransform: 'uppercase', color: 'var(--color-gold)', fontSize: '0.75rem', marginBottom: '2rem' }}>
+                    <p style={{ textAlign: 'center', letterSpacing: '4px', textTransform: 'uppercase', color: 'var(--color-gold)', fontSize: '0.75rem', marginBottom: '3rem' }}>
                         Crafted With
                     </p>
 
-                    <div className="narrative-ingredients-grid">
+                    <motion.div 
+                        className="narrative-ingredients-grid"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.15
+                                }
+                            }
+                        }}
+                    >
                         {ingredients.map((ing) => (
-                            <div key={ing.name} style={{
-                                padding: '2.5rem 1.5rem', textAlign: 'center',
-                                backgroundColor: 'var(--color-dark)',
-                                transition: 'background-color 0.3s', cursor: 'default',
-                            }}
-                                onMouseOver={e => e.currentTarget.style.backgroundColor = 'var(--color-grey)'}
-                                onMouseOut={e => e.currentTarget.style.backgroundColor = 'var(--color-dark)'}
+                            <motion.div 
+                                key={ing.name} 
+                                variants={{
+                                    hidden: { opacity: 0, scale: 0.8, y: 30 },
+                                    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6 } }
+                                }}
+                                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.02)', transition: { duration: 0.3 } }}
+                                style={{
+                                    padding: '3.5rem 2rem', textAlign: 'center',
+                                    backgroundColor: 'var(--color-dark)',
+                                    border: '1px solid rgba(212,175,55,0.1)',
+                                    cursor: 'default',
+                                }}
                             >
-                                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{ing.icon}</div>
-                                <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+                                <motion.div 
+                                    style={{ fontSize: '3rem', marginBottom: '1.5rem', display: 'block' }}
+                                    animate={{ 
+                                        y: [0, -10, 0],
+                                    }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    {ing.icon}
+                                </motion.div>
+                                <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', fontSize: '1.4rem', marginBottom: '0.8rem' }}>
                                     {ing.name}
                                 </h4>
-                                <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '1rem', lineHeight: 1.6 }}>
                                     {ing.desc}
                                 </p>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
-                    <p style={{ textAlign: 'center', marginTop: '2rem', color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', fontStyle: 'italic' }}>
-                        Each ingredient is chosen to support both your body and your state of mind.
-                    </p>
+                    </motion.div>
+                    
+                    <motion.div 
+                        style={{ textAlign: 'center', marginTop: '4rem' }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                    >
+                        <a 
+                            href="#/product/1" 
+                            style={{ 
+                                display: 'inline-block',
+                                padding: '1.2rem 3rem',
+                                border: '1px solid var(--color-gold)',
+                                color: 'var(--color-gold)',
+                                textDecoration: 'none',
+                                fontFamily: 'var(--font-serif)',
+                                letterSpacing: '2px',
+                                transition: 'all 0.3s'
+                            }}
+                            onMouseOver={e => {
+                                e.currentTarget.style.backgroundColor = 'var(--color-gold)';
+                                e.currentTarget.style.color = '#fff';
+                            }}
+                            onMouseOut={e => {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                                e.currentTarget.style.color = 'var(--color-gold)';
+                            }}
+                        >
+                            SHOP OCEAN'S SHIELD
+                        </a>
+                        <p style={{ marginTop: '2rem', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', fontStyle: 'italic' }}>
+                            Each ingredient is chosen to support both your body and your state of mind.
+                        </p>
+                    </motion.div>
                 </div>
             </section>
 

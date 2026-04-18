@@ -143,8 +143,8 @@ const Navbar = () => {
 
                 {/* Desktop Links */}
                 <ul className="desktop-links" style={{ color: textColor }}>
-                    {/* <li><Link to="/" style={{ color: textColor, textDecoration: 'none' }}>Home</Link></li> */}
-                    {/* <li><Link to="/shop" style={{ color: textColor, textDecoration: 'none' }}>Shop</Link></li> */}
+                    <li><Link to="/" style={{ color: textColor, textDecoration: 'none' }}>Home</Link></li>
+                    <li><Link to="/shop" style={{ color: textColor, textDecoration: 'none' }}>Shop</Link></li>
                     {/* <li><Link to="/readings" style={{ color: textColor, textDecoration: 'none' }}>Readings</Link></li> */}
                 </ul>
 
@@ -184,7 +184,7 @@ const Navbar = () => {
                 </button>
                 <img src={logo} alt="11:11 Ritualz" style={{ height: '60px', borderRadius: '4px', marginBottom: '1rem' }} />
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                {/* <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link> */}
+                <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
                 {user ? (
                     <>
                         <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
