@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 
 const Countdown = ({ onComplete }) => {
-    // Target Time: March 22, 2026, 18:30:00 IST
-    // IST is UTC+5:30. So 18:30 IST is 13:00 UTC.
-    const targetDate = new Date("2026-03-22T18:30:00+05:30").getTime();
+    // Target Time: April 19, 2026, 11:11 AM IST
+    const targetDate = new Date("2026-04-19T11:11:00+05:30").getTime();
 
     const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
     const [isBursting, setIsBursting] = useState(false);
@@ -156,7 +155,7 @@ const Countdown = ({ onComplete }) => {
                 letterSpacing: '1px',
                 padding: '0 1rem'
             }}>
-                The ocean is calling. See you at 6:30 PM IST.
+                The ocean is calling. See you at 11:11 AM IST — 19th April 2026.
             </div>
 
             <div style={{

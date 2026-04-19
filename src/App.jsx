@@ -40,7 +40,7 @@ import { products } from './data';
 
 function App() {
   const [isLaunched, setIsLaunched] = React.useState(
-    new Date() >= new Date("2026-03-22T13:00:00Z")
+    new Date() >= new Date("2026-04-19T05:41:00Z") // 11:11 AM IST
   );
 
   const newEnergies = products.filter(p => p.category === 'Aura Cleansing');
