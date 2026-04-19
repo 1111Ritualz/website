@@ -31,27 +31,27 @@ const BottleExperience = () => {
 
     const ingredients = [
         {
-            img: saltImg, x: -260, y: -20, delay: 0.1, name: 'Sea Salt',
+            img: saltImg, x: -260, y: -20, mobileX: -120, mobileY: -10, delay: 0.1, name: 'Sea Salt',
             benefits: "Absorbs negative energy and grounds the spirit. Mineral-rich crystals that detoxify both body and aura."
         },
         {
-            img: rosemaryImg, x: 260, y: -20, delay: 0.2, name: 'Rosemary',
+            img: rosemaryImg, x: 260, y: -20, mobileX: 120, mobileY: -10, delay: 0.2, name: 'Rosemary',
             benefits: "Supports mental clarity and spiritual protection. A potent herb for clearing psychic fog."
         },
         {
-            img: lavenderImg, x: -280, y: 190, delay: 0.3, name: 'Lavender',
+            img: lavenderImg, x: -280, y: 190, mobileX: -130, mobileY: 90, delay: 0.3, name: 'Lavender',
             benefits: "Heals emotional wounds and restores deep peace. Calms the nervous system for a restful reset."
         },
         {
-            img: bayImg, x: 280, y: 190, delay: 0.4, name: 'Bay Leaves',
+            img: bayImg, x: 280, y: 190, mobileX: 130, mobileY: 90, delay: 0.4, name: 'Bay Leaves',
             benefits: "The leaf of success and purification. Used for centuries to manifest intentions and clear obstacles."
         },
         {
-            img: cardamomImg, x: -180, y: -200, delay: 0.5, name: 'Cardamom',
+            img: cardamomImg, x: -180, y: -200, mobileX: -85, mobileY: -95, delay: 0.5, name: 'Cardamom',
             benefits: "Balances the heart and uplifts the mind. Provides emotional clarity and revitalizes the spirit."
         },
         {
-            img: camphorImg, x: 180, y: -200, delay: 0.6, name: 'Camphor',
+            img: camphorImg, x: 180, y: -200, mobileX: 85, mobileY: -95, delay: 0.6, name: 'Camphor',
             benefits: "The ultimate reset. Pierces through stagnant energy to provide immediate spiritual refreshment."
         },
     ];
@@ -65,7 +65,7 @@ const BottleExperience = () => {
             flexDirection: 'column',
             alignItems: 'center',
             position: 'relative',
-            overflow: 'hidden',
+            overflowX: 'hidden',
             padding: '4rem 2rem 2rem'
         }}>
             <style>{`
@@ -170,19 +170,6 @@ const BottleExperience = () => {
                     pointer-events: none;
                     font-weight: bold;
                 }
-                .mobile-ingredients-grid {
-                    display: none;
-                }
-                .mobile-ingredient-item {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    text-align: center;
-                    padding: 1.5rem;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(212, 175, 55, 0.1);
-                    border-radius: 12px;
-                }
                 @media (max-width: 1200px) {
                     .bottle-ritual-wrapper { transform: scale(0.85); height: 500px; margin-top: 100px; }
                 }
@@ -192,22 +179,19 @@ const BottleExperience = () => {
                     .ingredient-img-container { width: 90px; height: 90px; }
                 }
                 @media (max-width: 768px) {
-                    .bottle-container { width: 200px; height: 300px; }
+                    .bottle-container { width: 160px; height: 240px; }
                     .experience-title { font-size: 2rem; }
-                    .bottle-ritual-wrapper { transform: none; height: auto; margin-top: 0px; margin-bottom: 2rem; }
-                    .mobile-ingredients-grid {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 1.5rem;
-                        width: 100%;
-                        max-width: 600px;
-                        margin: 0 auto;
-                    }
+                    .bottle-ritual-wrapper { transform: none; height: 420px; margin-top: 120px; margin-bottom: 2rem; }
+                    .ingredient-pop { width: 70px; }
+                    .ingredient-img-container { width: 56px; height: 56px; padding: 5px; }
+                    .ingredient-label { font-size: 0.55rem; letter-spacing: 1.5px; margin-top: 6px; }
                 }
                 @media (max-width: 480px) {
-                    .mobile-ingredients-grid {
-                        grid-template-columns: 1fr;
-                    }
+                    .bottle-container { width: 130px; height: 200px; }
+                    .bottle-ritual-wrapper { height: 360px; margin-top: 100px; }
+                    .ingredient-pop { width: 60px; }
+                    .ingredient-img-container { width: 48px; height: 48px; padding: 4px; }
+                    .ingredient-label { font-size: 0.5rem; letter-spacing: 1px; margin-top: 5px; }
                 }
             `}</style>
 
@@ -244,8 +228,10 @@ const BottleExperience = () => {
                     <img src={bottleImg} alt="Ocean's Shield" className="bottle-image" />
                 </motion.div>
 
-                {!isMobile && ingredients.map((ing, i) => {
+                {ingredients.map((ing, i) => {
                     const isLeftSide = ['Sea Salt', 'Lavender', 'Cardamom'].includes(ing.name);
+                    const targetX = isMobile ? ing.mobileX : ing.x;
+                    const targetY = isMobile ? ing.mobileY : ing.y;
 
                     return (
                         <motion.div
@@ -261,8 +247,8 @@ const BottleExperience = () => {
                             whileInView={{
                                 opacity: hoveredIndex !== null && hoveredIndex !== i ? 0.3 : 1,
                                 scale: hoveredIndex === i ? 1.1 : 1,
-                                x: ing.x,
-                                y: ing.y,
+                                x: targetX,
+                                y: targetY,
                                 transition: {
                                     opacity: { duration: 0.3 },
                                     scale: { duration: 0.3 },
@@ -285,26 +271,44 @@ const BottleExperience = () => {
                             <motion.div
                                 initial={{
                                     opacity: 0,
-                                    x: isLeftSide ? 20 : -20,
+                                    y: isMobile ? 10 : 0,
+                                    x: isMobile ? 0 : (isLeftSide ? -20 : 20),
                                     scale: 0.9
                                 }}
                                 animate={{
                                     opacity: hoveredIndex === i ? 1 : 0,
-                                    x: hoveredIndex === i ? 0 : (isLeftSide ? 20 : -20),
+                                    y: isMobile ? (hoveredIndex === i ? 0 : 10) : 0,
+                                    x: isMobile ? 0 : (hoveredIndex === i ? 0 : (isLeftSide ? -20 : 20)),
                                     scale: hoveredIndex === i ? 1 : 0.9,
                                     pointerEvents: hoveredIndex === i ? 'auto' : 'none'
                                 }}
                                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                                style={{
+                                style={isMobile ? {
                                     position: 'absolute',
-                                    [isLeftSide ? 'right' : 'left']: '120%',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    width: '260px',
+                                    bottom: '110%',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    width: '140px',
                                     background: 'rgba(20, 20, 20, 0.98)',
                                     backdropFilter: 'blur(15px)',
                                     border: '1px solid var(--color-gold)',
-                                    padding: '1.5rem',
+                                    padding: '0.7rem',
+                                    borderRadius: '12px',
+                                    boxShadow: '0 15px 30px rgba(0,0,0,0.6)',
+                                    textAlign: 'center',
+                                    zIndex: 200,
+                                    pointerEvents: 'none',
+                                    color: '#fff'
+                                } : {
+                                    position: 'absolute',
+                                    [isLeftSide ? 'left' : 'right']: '200%',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    width: '180px',
+                                    background: 'rgba(20, 20, 20, 0.98)',
+                                    backdropFilter: 'blur(15px)',
+                                    border: '1px solid var(--color-gold)',
+                                    padding: '0.9rem',
                                     borderRadius: '16px',
                                     boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                                     textAlign: 'left',
@@ -316,72 +320,55 @@ const BottleExperience = () => {
                                 <h4 style={{
                                     fontFamily: 'var(--font-serif)',
                                     color: '#fff',
-                                    fontSize: '1.2rem',
-                                    marginBottom: '0.8rem',
+                                    fontSize: isMobile ? '0.7rem' : '0.95rem',
+                                    marginBottom: '0.4rem',
                                     borderBottom: '1px solid rgba(212,175,55,0.3)',
-                                    paddingBottom: '0.5rem',
+                                    paddingBottom: '0.35rem',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '10px'
+                                    justifyContent: isMobile ? 'center' : 'flex-start',
+                                    gap: '6px'
                                 }}>
                                     <span style={{ color: 'var(--color-gold)' }}>◆</span>
                                     {ing.name}
                                 </h4>
                                 <p style={{
-                                    fontSize: '0.95rem',
+                                    fontSize: isMobile ? '0.62rem' : '0.75rem',
                                     color: 'rgba(255, 255, 255, 0.7)',
-                                    lineHeight: 1.6,
+                                    lineHeight: 1.4,
                                     fontStyle: 'italic',
-                                    fontWeight: '400'
+                                    fontWeight: '400',
+                                    margin: 0
                                 }}>
                                     {ing.benefits}
                                 </p>
-                                <div style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    [isLeftSide ? 'right' : 'left']: '-8px',
-                                    transform: 'translateY(-50%) rotate(45deg)',
-                                    width: '16px',
-                                    height: '16px',
-                                    background: 'rgba(20, 20, 20, 0.98)',
-                                    borderLeft: isLeftSide ? 'none' : '1px solid var(--color-gold)',
-                                    borderBottom: isLeftSide ? 'none' : '1px solid var(--color-gold)',
-                                    borderRight: isLeftSide ? '1px solid var(--color-gold)' : 'none',
-                                    borderTop: isLeftSide ? '1px solid var(--color-gold)' : 'none',
-                                    zIndex: -1
-                                }} />
+                                {!isMobile && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        [isLeftSide ? 'left' : 'right']: '-8px',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        width: '16px',
+                                        height: '16px',
+                                        background: 'rgba(20, 20, 20, 0.98)',
+                                        borderLeft: isLeftSide ? '1px solid var(--color-gold)' : 'none',
+                                        borderBottom: isLeftSide ? '1px solid var(--color-gold)' : 'none',
+                                        borderRight: isLeftSide ? 'none' : '1px solid var(--color-gold)',
+                                        borderTop: isLeftSide ? 'none' : '1px solid var(--color-gold)',
+                                        zIndex: -1
+                                    }} />
+                                )}
                             </motion.div>
                         </motion.div>
                     );
                 })}
             </div>
 
-            {isMobile && (
-                <div className="mobile-ingredients-grid">
-                    {ingredients.map((ing, idx) => (
-                        <motion.div 
-                            key={idx} 
-                            className="mobile-ingredient-item"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.1 }}
-                        >
-                            <div className="ingredient-img-container" style={{ marginBottom: '1rem', width: '90px', height: '90px' }}>
-                                <img src={ing.img} alt={ing.name} />
-                            </div>
-                            <h4 style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-serif)', fontSize: '1.2rem', marginBottom: '0.5rem' }}>{ing.name}</h4>
-                            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>{ing.benefits}</p>
-                        </motion.div>
-                    ))}
-                </div>
-            )}
-
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                style={{ textAlign: 'center', marginTop: '4rem', zIndex: 10 }}
+                style={{ textAlign: 'center', marginTop: '-10rem', zIndex: 10 }}
             >
                 <Link to="/product/1" className="btn" style={{
                     padding: '1.2rem 3.5rem',
