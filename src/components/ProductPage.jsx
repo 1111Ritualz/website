@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles } from 'lucide-react';
 import { products } from '../data';
@@ -44,9 +45,24 @@ const ProductPage = () => {
     const navigate = useNavigate();
     const product = products.find(p => p.id === parseInt(id)) || products[0];
 
+    const { user } = useAuth();
+    const [quantity, setQuantity] = useState(1);
+    
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const price = 1099;
+    const totalAmount = price * quantity;
+
+    const handleBuyNow = () => {
+        const payload = { productId: product.id, quantity, totalAmount };
+        if (!user) {
+            navigate('/signup', { state: { redirectTo: '/payment', payload } });
+        } else {
+            navigate('/payment', { state: { payload } });
+        }
+    };
 
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
@@ -136,6 +152,36 @@ const ProductPage = () => {
                     transform: translateY(-2px);
                 }
                 
+                .quantity-selector {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-bottom: 1.5rem;
+                }
+                .quantity-btn {
+                    width: 36px;
+                    height: 36px;
+                    border: 1px solid var(--color-dark);
+                    background: transparent;
+                    color: var(--color-dark);
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+                .quantity-btn:hover {
+                    background: var(--color-dark);
+                    color: white;
+                }
+                .quantity-value {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    min-width: 30px;
+                    text-align: center;
+                }
+                
                 /* Narrative Section Overrides */
                 .narrative-ingredients-grid {
                     display: grid; 
@@ -208,10 +254,17 @@ const ProductPage = () => {
                     <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '0rem' }}>
                         Bathe in the tide of protection, Let your aura shine.
                     </p>
-                    <div className="price-tag">₹ 1,099</div>
-                    <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '2rem' }}>
+                    <div className="price-tag">₹ {price.toLocaleString()}</div>
+                    <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '1.5rem' }}>
                         Crafted with sea-kissed sea and protective herbs, who’s blend helps wash away negativity and creates a calming shield around your energy.
                     </p>
+
+                    <div className="quantity-selector">
+                        <button className="quantity-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</button>
+                        <span className="quantity-value">{quantity}</span>
+                        <button className="quantity-btn" onClick={() => setQuantity(quantity + 1)}>+</button>
+                    </div>
+                    <p style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '2rem' }}>Total: ₹ {totalAmount.toLocaleString()}</p>
 
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -233,11 +286,7 @@ const ProductPage = () => {
                     </div>
 
                     <div className="action-buttons">
-                        <button className="btn-primary">
-                            <ShoppingBag size={20} />
-                            ADD TO CART
-                        </button>
-                        <button className="btn-secondary">BUY NOW</button>
+                        <button className="btn-primary" onClick={handleBuyNow}>BUY NOW</button>
                     </div>
                 </motion.div>
             </section>

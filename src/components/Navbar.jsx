@@ -1,200 +1,244 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
+import { User, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import logo from '../assets/images/logo.jpeg';
 
 const Navbar = () => {
     const { user } = useAuth();
-    const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
 
-    const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
-    const isHomePage = location.pathname === '/';
-
-    const textColor = (isHomePage && !isScrolledPastHero) ? '#ffffff' : '#000000';
-    const shouldShowBackground = !(isHomePage && !isScrolledPastHero);
+    const isHome = location.pathname === '/';
+    const transparent = isHome && !scrolled;
+    const textColor = transparent ? '#ffffff' : '#1a0f07';
 
     useEffect(() => {
-        setIsScrolledPastHero(false);
-        setIsMobileMenuOpen(false);
-
-        const handleScroll = () => {
-            if (isHomePage) {
-                setIsScrolledPastHero(window.scrollY > window.innerHeight * 0.8);
-            }
+        setScrolled(false);
+        setMobileOpen(false);
+        const onScroll = () => {
+            if (isHome) setScrolled(window.scrollY > window.innerHeight * 0.8);
+            else setScrolled(true);
         };
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isHomePage, location.pathname]);
+        window.addEventListener('scroll', onScroll);
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [isHome, location.pathname]);
 
-    const navStyles = {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        zIndex: 1000,
-        transition: 'all 0.3s ease',
-        backgroundColor: shouldShowBackground ? 'rgba(250, 249, 246, 0.95)' : 'transparent',
-        boxShadow: shouldShowBackground ? '0 2px 10px rgba(0,0,0,0.1)' : 'none',
-        padding: shouldShowBackground ? '0.6rem 0' : '1rem 0',
-    };
+    // Close mobile menu on route change
+    useEffect(() => { setMobileOpen(false); }, [location.pathname]);
+
+    const navLinks = [
+        { label: 'Home',  to: '/' },
+        { label: 'Shop',  to: '/shop' },
+    ];
+
+    const authLinks = user
+        ? [
+            { label: 'Account', to: '/account' },
+            { label: 'Orders',  to: '/orders'  },
+            { label: 'Logout',  to: '/logout'  },
+          ]
+        : [{ label: 'Login', to: '/login', icon: true }];
 
     return (
-        <nav style={navStyles}>
+        <>
             <style>{`
-                .nav-container {
-                    display: flex;
-                    justify-content: space-between;
+                /* ── Navbar Base ── */
+                .nb-bar {
+                    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+                    transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+                    backdrop-filter: blur(0px);
+                }
+                .nb-bar.solid {
+                    background: rgba(250,249,246,0.97);
+                    box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 4px 24px rgba(0,0,0,0.06);
+                    backdrop-filter: blur(12px);
+                }
+                /* ── Inner Layout ── */
+                .nb-inner {
+                    max-width: 1280px; margin: 0 auto;
+                    padding: 0 2rem;
+                    height: 72px;
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
                     align-items: center;
                 }
-                .desktop-links {
-                    display: flex;
-                    gap: 2rem;
-                    font-size: 0.9rem;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
+                /* ── Logo ── */
+                .nb-logo {
+                    display: flex; align-items: center; gap: 0.55rem;
+                    text-decoration: none; justify-self: start;
                 }
-                .nav-icons {
-                    display: flex;
-                    gap: 1.5rem;
-                    align-items: center;
+                .nb-logo img {
+                    height: 48px; border-radius: 6px;
+                    transition: height 0.3s;
                 }
-                .mobile-menu-btn {
-                    display: none;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                }
-                .mobile-overlay {
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(250,249,246,0.98);
-                    z-index: 999;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 2rem;
-                }
-                .mobile-overlay.open {
-                    display: flex;
-                }
-                .mobile-overlay a {
-                    font-size: 1.5rem;
-                    text-transform: uppercase;
-                    letter-spacing: 3px;
-                    color: var(--color-dark);
-                    text-decoration: none;
+                .nb-logo span {
                     font-family: var(--font-serif);
+                    font-size: 1.15rem; font-weight: bold;
+                    letter-spacing: 2px; text-transform: uppercase;
+                    white-space: nowrap;
                 }
-                .mobile-close {
-                    position: absolute;
-                    top: 1.5rem;
-                    right: 1.5rem;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
+                /* ── Center: Nav Links ── */
+                .nb-links {
+                    display: flex; gap: 2.5rem; list-style: none;
+                    margin: 0; padding: 0;
                 }
+                .nb-links a {
+                    font-size: 0.8rem; font-weight: 600;
+                    text-transform: uppercase; letter-spacing: 1.5px;
+                    text-decoration: none;
+                    position: relative; padding-bottom: 2px;
+                }
+                .nb-links a::after {
+                    content: '';
+                    position: absolute; bottom: -2px; left: 0; right: 100%;
+                    height: 1.5px;
+                    background: currentColor;
+                    transition: right 0.28s ease;
+                }
+                .nb-links a:hover::after,
+                .nb-links a.active::after { right: 0; }
+
+                /* ── Right: Auth Links ── */
+                .nb-auth {
+                    display: flex; gap: 1.5rem; align-items: center;
+                    justify-self: end;
+                }
+                .nb-auth a {
+                    font-size: 0.8rem; font-weight: 600;
+                    text-transform: uppercase; letter-spacing: 1.5px;
+                    text-decoration: none;
+                    position: relative; padding-bottom: 2px;
+                }
+                .nb-auth a::after {
+                    content: '';
+                    position: absolute; bottom: -2px; left: 0; right: 100%;
+                    height: 1.5px; background: currentColor;
+                    transition: right 0.28s ease;
+                }
+                .nb-auth a:hover::after { right: 0; }
+
+                /* ── Mobile hamburger ── */
+                .nb-ham {
+                    display: none; background: none; border: none;
+                    cursor: pointer; padding: 4px; justify-self: end;
+                }
+
+                /* ── Mobile Drawer ── */
+                .nb-drawer {
+                    position: fixed; inset: 0; z-index: 999;
+                    background: rgba(250,249,246,0.99);
+                    backdrop-filter: blur(16px);
+                    display: flex; flex-direction: column;
+                    align-items: center; justify-content: center;
+                    gap: 2rem;
+                    transform: translateX(100%);
+                    transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+                }
+                .nb-drawer.open { transform: translateX(0); }
+                .nb-drawer-close {
+                    position: absolute; top: 1.4rem; right: 1.4rem;
+                    background: none; border: none; cursor: pointer;
+                    color: var(--color-dark);
+                }
+                .nb-drawer a {
+                    font-family: var(--font-serif);
+                    font-size: 1.8rem; letter-spacing: 3px;
+                    color: var(--color-dark); text-decoration: none;
+                    text-transform: uppercase;
+                    transition: opacity 0.2s;
+                }
+                .nb-drawer a:hover { opacity: 0.5; }
+                .nb-sep {
+                    width: 40px; height: 1px;
+                    background: rgba(0,0,0,0.15);
+                }
+
+                /* ── Responsive ── */
                 @media (max-width: 768px) {
-                    .desktop-links { display: none !important; }
-                    .mobile-menu-btn { display: block !important; }
-                    .nav-icons .nav-hide-mobile { display: none; }
+                    .nb-inner {
+                        grid-template-columns: auto 1fr auto;
+                        padding: 0 1.25rem;
+                    }
+                    .nb-links { display: none; }
+                    .nb-auth  { display: none; }
+                    .nb-ham   { display: flex; }
+                    .nb-logo span { font-size: 1rem; }
                 }
             `}</style>
 
-            <div className="container nav-container">
-                {/* Mobile Menu Button */}
-                <button
-                    className="mobile-menu-btn"
-                    onClick={() => setIsMobileMenuOpen(true)}
-                    style={{ color: textColor }}
-                >
-                    <Menu size={24} />
-                </button>
+            {/* ── Bar ── */}
+            <nav className={`nb-bar ${!transparent ? 'solid' : ''}`}>
+                <div className="nb-inner">
+                    {/* Logo — left */}
+                    <Link to="/" className="nb-logo">
+                        <img src={logo} alt="11:11 Ritualz" />
+                        <span style={{ color: textColor }}>11:11 Ritualz</span>
+                    </Link>
 
-                {/* Logo */}
-                <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    <img
-                        src={logo}
-                        alt="11:11 Ritualz"
-                        style={{
-                            height: shouldShowBackground ? '70px' : '70px',
-                            transition: 'height 0.3s ease',
-                            borderRadius: '4px',
-                        }}
-                    />
-                    <span style={{
-                        color: textColor,
-                        fontSize: '1.3rem',
-                        fontFamily: 'var(--font-serif)',
-                        fontWeight: 'bold',
-                        letterSpacing: '2px',
-                        textTransform: 'uppercase',
-                    }}>
-                        11:11 Ritualz
-                    </span>
-                </Link>
+                    {/* Nav links — center */}
+                    <ul className="nb-links">
+                        {navLinks.map(l => (
+                            <li key={l.to}>
+                                <Link
+                                    to={l.to}
+                                    style={{ color: textColor }}
+                                    className={location.pathname === l.to ? 'active' : ''}
+                                >
+                                    {l.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
 
-                {/* Desktop Links */}
-                <ul className="desktop-links" style={{ color: textColor }}>
-                    <li><Link to="/" style={{ color: textColor, textDecoration: 'none' }}>Home</Link></li>
-                    <li><Link to="/shop" style={{ color: textColor, textDecoration: 'none' }}>Shop</Link></li>
-                    {/* <li><Link to="/readings" style={{ color: textColor, textDecoration: 'none' }}>Readings</Link></li> */}
-                </ul>
-
-                {/* Icons */}
-                <div className="nav-icons" style={{ color: textColor }}>
-                    <Search size={20} style={{ cursor: 'pointer' }} className="nav-hide-mobile" />
-
-                    {user ? (
-                        <>
-                            <Link to="/account" style={{ color: textColor, textDecoration: 'none' }} className="nav-hide-mobile">Account</Link>
-                            <Link to="/logout" style={{ color: textColor, textDecoration: 'none' }} className="nav-hide-mobile">Logout</Link>
-                        </>
-                    ) : (
-                        <Link to="/login" style={{ color: textColor, textDecoration: 'none' }}>
-                            <User size={20} style={{ cursor: 'pointer' }} />
-                        </Link>
-                    )}
-
-                    <div style={{ position: 'relative', cursor: 'pointer' }}>
-                        <ShoppingBag size={20} />
-                        <span style={{
-                            position: 'absolute', top: '-8px', right: '-8px',
-                            backgroundColor: 'var(--color-gold)', color: '#fff',
-                            fontSize: '0.7rem', padding: '2px 6px', borderRadius: '50%'
-                        }}>0</span>
+                    {/* Auth links — right (desktop) */}
+                    <div className="nb-auth">
+                        {authLinks.map(l => (
+                            <Link key={l.to} to={l.to} style={{ color: textColor }}>
+                                {l.icon ? <User size={20} strokeWidth={1.8} /> : l.label}
+                            </Link>
+                        ))}
                     </div>
-                </div>
-            </div>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+                    {/* Hamburger — mobile only */}
+                    <button
+                        className="nb-ham"
+                        onClick={() => setMobileOpen(true)}
+                        style={{ color: textColor }}
+                        aria-label="Open menu"
+                    >
+                        <Menu size={24} strokeWidth={1.8} />
+                    </button>
+                </div>
+            </nav>
+
+            {/* ── Mobile Drawer ── */}
+            <div className={`nb-drawer ${mobileOpen ? 'open' : ''}`} aria-hidden={!mobileOpen}>
                 <button
-                    className="mobile-close"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="nb-drawer-close"
+                    onClick={() => setMobileOpen(false)}
+                    aria-label="Close menu"
                 >
-                    <X size={28} />
+                    <X size={28} strokeWidth={1.8} />
                 </button>
-                <img src={logo} alt="11:11 Ritualz" style={{ height: '80px', borderRadius: '4px', marginBottom: '1rem' }} />
-                <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
-                {user ? (
-                    <>
-                        <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>Account</Link>
-                        <Link to="/logout" onClick={() => setIsMobileMenuOpen(false)}>Logout</Link>
-                    </>
-                ) : (
-                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-                )}
+
+                <img src={logo} alt="11:11 Ritualz" style={{ height: '70px', borderRadius: '6px', marginBottom: '0.5rem' }} />
+
+                {navLinks.map(l => (
+                    <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)}>{l.label}</Link>
+                ))}
+
+                <div className="nb-sep" />
+
+                {authLinks.map(l => (
+                    <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)}>
+                        {l.label || 'Login'}
+                    </Link>
+                ))}
             </div>
-        </nav>
+        </>
     );
 };
 

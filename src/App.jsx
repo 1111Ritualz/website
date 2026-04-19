@@ -34,6 +34,8 @@ import IngredientsPage from './components/IngredientsPage';
 import FAQPage from './components/FAQPage';
 import Blogs from './components/Blogs';
 import RitualPage from './components/RitualPage';
+import PaymentPage from './components/PaymentPage';
+import OrdersPage from './components/OrdersPage';
 import { products } from './data';
 
 function App() {
@@ -84,6 +86,16 @@ function App() {
           <Route path="/account" element={
             <ProtectedRoute>
               <Account />
+            </ProtectedRoute>
+          } />
+          <Route path="/payment" element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/orders" element={
+            <ProtectedRoute>
+              <OrdersPage />
             </ProtectedRoute>
           } />
           <Route path="*" element={<div className="container section-padding text-center"><h2>Page Not Found</h2></div>} />
