@@ -35,6 +35,7 @@ const PaymentPage = () => {
             email: user?.email || 'user@example.com',
             phone: phone,
             productId: `prod_00${payload.productId}`,
+            productName: payload.productName || 'Ocean\'s Shield',
             quantity: payload.quantity || 1,
             totalAmount: payload.totalAmount || 1099,
             address: address

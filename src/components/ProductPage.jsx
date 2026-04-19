@@ -56,7 +56,7 @@ const ProductPage = () => {
     const totalAmount = price * quantity;
 
     const handleBuyNow = () => {
-        const payload = { productId: product.id, quantity, totalAmount };
+        const payload = { productId: product.id, productName: product.name, quantity, totalAmount };
         if (!user) {
             navigate('/signup', { state: { redirectTo: '/payment', payload } });
         } else {
