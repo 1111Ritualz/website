@@ -4,7 +4,7 @@ import rosemaryImg from '../assets/images/ingredient_rosemary_1776527008835.png'
 import lavenderImg from '../assets/images/ingredient_lavender_1776527024326.png';
 import bayImg from '../assets/images/ingredient_bay_leaves_1776527110544.png';
 import cardamomImg from '../assets/images/ing_cardamom_1776527404764.png';
-
+import camphorImg from '../assets/images/cam.jpeg';
 const IngredientsPage = () => {
     const ingredients = [
         {
@@ -34,7 +34,7 @@ const IngredientsPage = () => {
         },
         {
             name: "Camphor",
-            img: 'https://images.unsplash.com/photo-1590483736622-39da8af75b93?q=80&w=400&auto=format&fit=crop',
+            img: camphorImg,
             desc: "The ultimate spiritual reset. Pierces through deep energetic blocks."
         }
     ];
