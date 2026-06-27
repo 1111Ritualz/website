@@ -168,6 +168,10 @@ const FAQSection = () => {
         {
             question: "Can I travel with it?",
             answer: "Yes.\nJust ensure the lid is tightly closed and kept away from moisture."
+        },
+        {
+            question: "Why 11:11 Ritualz Ocean's Shield Bath Salt?",
+            answer: "Because, \n11:11 Ritualz is an artisanal wellness brand that creates intentionally crafted bathproducts, including Ocean's Shield, designed to cleanse the energetic body using realherbs and sea salt, without essential oils or machinery."
         }
     ];
 

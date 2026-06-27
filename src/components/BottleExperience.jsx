@@ -212,7 +212,7 @@ const BottleExperience = () => {
                         Crafted to cleanse the energetic body, the field that lives just beyond your skin and carries everything your days bring.
                     </p>
                     <p style={{ marginBottom: '1.5rem' }}>
-                        Made with real herbs. Real salt. Specific mantras playing through every batch of production.
+                        Made with real herbs. Real salt. Specific mantras playing through every batch of production making it a Spiritual bath Ritual.
                     </p>
                     <p style={{ fontWeight: 600, color: '#fff' }}>
                         No essential oils. No machines. No shortcuts. Ever.

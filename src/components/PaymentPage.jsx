@@ -7,7 +7,7 @@ import gpayLogo from '../assets/images/gpay.jpg';
 const PaymentPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const payload = location.state?.payload || { totalAmount: 1099, quantity: 1, productId: 1 };
+    const payload = location.state?.payload || { totalAmount: 1199, quantity: 1, productId: 1 };
     const { user } = useAuth();
 
     const [phone, setPhone] = useState('');
@@ -38,7 +38,7 @@ const PaymentPage = () => {
             productId: `prod_00${payload.productId}`,
             productName: payload.productName || 'Ocean\'s Shield',
             quantity: payload.quantity || 1,
-            totalAmount: payload.totalAmount || 1099,
+            totalAmount: payload.totalAmount || 1199,
             address: address
         };
 

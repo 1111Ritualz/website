@@ -170,8 +170,8 @@ const RitualSection = () => {
                     <span style={{ color: 'var(--color-gold)', letterSpacing: '10px', textTransform: 'uppercase', fontSize: '0.9rem' }}>THE IDEA</span>
                     <h3 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', margin: '1.5rem 0' }}>You live far from the ocean</h3>
                     <p style={{ fontSize: '1.2rem', color: 'var(--color-dark)', lineHeight: '1.6' }}>
-                        We Know
-                        That is exactly why we made <strong> Ocean's Shield</strong>.
+                        We Know and 
+                        that is exactly why we made <strong> Ocean's Shield</strong>, energy cleansing bath salts made in <strong>India</strong>.
                     </p>
                     <motion.button
                         whileHover={{ scale: 1.05 }}

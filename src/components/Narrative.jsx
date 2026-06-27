@@ -119,7 +119,7 @@ const Narrative = () => {
                     </p>
                     <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.2, marginBottom: '2rem', color: 'var(--color-dark)' }}>
                         You live far from the ocean...<br />
-                        We know<br />
+                        We know and <br />
                         That is exactly why we made Ocean's Shield
                     </h2>
                     <div style={{ width: '50px', height: '2px', backgroundColor: 'var(--color-gold)', margin: '0 auto 2rem' }} />
