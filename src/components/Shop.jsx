@@ -73,7 +73,7 @@ const Shop = () => {
                                         {product.name}
                                     </h3>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹ 1,099</span>
+                                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹ 1,499</span>
                                         <span style={{
                                             display: 'flex', alignItems: 'center', gap: '0.5rem',
                                             color: 'var(--color-gold)', fontSize: '0.9rem', fontWeight: '500'

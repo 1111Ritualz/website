@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { generateInvoicePDF } from '../services/invoiceGenerator';
 
 const API_BASE = 'https://ctif9i9ive.execute-api.ap-south-1.amazonaws.com/dev';
 
@@ -156,7 +157,7 @@ const OrdersPage = () => {
                                     )}
                                 </div>
 
-                                {/* Right: status badge */}
+                                {/* Right: status badge + download */}
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem' }}>
                                     <span style={{
                                         padding: '0.4rem 1rem',
@@ -168,6 +169,29 @@ const OrdersPage = () => {
                                     }}>
                                         {order.status || 'ORDER PLACED'}
                                     </span>
+
+                                    {/* Download Invoice button */}
+                                    <button
+                                        onClick={() => generateInvoicePDF(order)}
+                                        title="Download PDF Invoice"
+                                        style={{
+                                            display: 'flex', alignItems: 'center', gap: '0.4rem',
+                                            padding: '0.5rem 1rem',
+                                            backgroundColor: 'var(--color-dark)',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            fontSize: '0.82rem',
+                                            cursor: 'pointer',
+                                            fontFamily: 'var(--font-serif)',
+                                            letterSpacing: '0.5px',
+                                            transition: 'opacity 0.2s',
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                                    >
+                                        ⬇ Invoice PDF
+                                    </button>
                                 </div>
                             </div>
                         ))}

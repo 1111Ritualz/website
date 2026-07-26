@@ -52,22 +52,16 @@ const ProductPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const price = 1199;
+    const price = 1499;
     const totalAmount = price * quantity;
 
     const handleBuyNow = () => {
-        /*
         const payload = { productId: product.id, productName: product.name, quantity, totalAmount };
         if (!user) {
             navigate('/signup', { state: { redirectTo: '/payment', payload } });
         } else {
             navigate('/payment', { state: { payload } });
         }
-        */
-        const phoneNumber = "919653390161"; // 91 for India code
-        const message = `Hi, I am interested in buying ${quantity}x ${product.name} (Total: ₹${totalAmount.toLocaleString()}).`;
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
     };
 
     const fadeInUp = {
