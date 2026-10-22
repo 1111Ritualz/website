@@ -20,7 +20,7 @@
 import emailjs from '@emailjs/browser';
 
 const EMAILJS_SERVICE_ID  = 'service_0u8d4hc';           // ✅ configured
-const EMAILJS_TEMPLATE_ID = 'REPLACE_ME_TEMPLATE_ID';    // ⚠️ create template on emailjs.com → paste ID here
+const EMAILJS_TEMPLATE_ID = 'template_ceh6awp';
 const EMAILJS_PUBLIC_KEY  = 'fs37cSTcBKu_TOKiG';         // ✅ configured
 
 /**
@@ -52,16 +52,38 @@ export async function sendInvoiceEmail(order, pdfBase64, pdfFileName) {
         : '—';
 
     const templateParams = {
+        // Variables matching the new EmailJS HTML template
+        customer_name:  order.address?.fullName || toEmail,
+        email:          toEmail,
+        order_id:       order.orderId || order.id || '—',
+        order_date:     order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-IN') : new Date().toLocaleDateString('en-IN'),
+        payment_method: order.paymentMethod === 'razorpay' ? 'Razorpay (Online)' : 'WhatsApp / Manual',
+        
+        // Orders array for the {{#orders}} ... {{/orders}} loop
+        orders: [
+            {
+                name: order.productName || "Ocean's Shield",
+                units: order.quantity || 1,
+                price: Number(order.totalAmount || 1499).toLocaleString('en-IN'), // Assuming price is same as total for single item
+                image_url: 'https://www.1111ritualz.com/logo192.png' // Fallback image
+            }
+        ],
+        
+        subtotal:       Number(order.totalAmount || 0).toLocaleString('en-IN'),
+        shipping:       '0',
+        tax:            '0',
+        total:          Number(order.totalAmount || 0).toLocaleString('en-IN'),
+        
+        // Shipping Address details
+        address:        `${order.address?.line1}${order.address?.line2 ? ', ' + order.address.line2 : ''}`,
+        city:           order.address?.city || '',
+        state:          order.address?.state || '',
+        pincode:        order.address?.pincode || '',
+        country:        'India',
+        
+        // Backward compatibility (just in case)
         to_email:       toEmail,
         to_name:        order.address?.fullName || toEmail,
-        order_id:       order.orderId || order.id || '—',
-        product_name:   order.productName || "Ocean's Shield",
-        quantity:       String(order.quantity || 1),
-        total_amount:   `Rs. ${Number(order.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`,
-        order_date:     order.createdAt ? new Date(order.createdAt).toLocaleString('en-IN') : new Date().toLocaleString('en-IN'),
-        address:        addr,
-        payment_method: order.paymentMethod === 'razorpay' ? 'Razorpay (Online)' : 'WhatsApp / Manual',
-        message:        'Thank you for your order! Your invoice is attached. May this ritual cleanse, protect, and restore you. 🙏',
     };
 
     try {

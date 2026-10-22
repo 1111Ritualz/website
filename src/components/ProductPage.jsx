@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles } from 'lucide-react';
+import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles, Tag, Check, X } from 'lucide-react';
 import { products } from '../data';
+import { validateCoupon } from '../utils/discountUtils';
 import oc1 from '../assets/images/oc1.jpeg';
 import oc2 from '../assets/images/oc2.jpeg';
 import oc3 from '../assets/images/oc3.jpeg';
@@ -45,23 +46,54 @@ const ProductPage = () => {
     const navigate = useNavigate();
     const product = products.find(p => p.id === parseInt(id)) || products[0];
 
-    const { user } = useAuth();
+    // Guest checkout — no account required.
+    // const { user } = useAuth();
     const [quantity, setQuantity] = useState(1);
-    
+
+    /* Coupon code state */
+    const [couponInput, setCouponInput] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [couponError, setCouponError] = useState('');
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     const price = 1499;
-    const totalAmount = price * quantity;
+    const rawTotal = price * quantity;
+    const discountAmount = appliedCoupon ? Math.round(rawTotal * appliedCoupon.discountRate) : 0;
+    const totalAmount = rawTotal - discountAmount;
+
+    const handleApplyCoupon = (e) => {
+        e?.preventDefault();
+        const res = validateCoupon(couponInput);
+        if (res.valid) {
+            setAppliedCoupon(res);
+            setCouponError('');
+        } else {
+            setAppliedCoupon(null);
+            setCouponError(res.message);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setAppliedCoupon(null);
+        setCouponInput('');
+        setCouponError('');
+    };
 
     const handleBuyNow = () => {
-        const payload = { productId: product.id, productName: product.name, quantity, totalAmount };
-        if (!user) {
-            navigate('/signup', { state: { redirectTo: '/payment', payload } });
-        } else {
-            navigate('/payment', { state: { payload } });
-        }
+        const payload = {
+            productId: product.id,
+            productName: product.name,
+            quantity,
+            subtotal: rawTotal,
+            discountCode: appliedCoupon?.code || '',
+            discountAmount,
+            totalAmount
+        };
+        // No signup required — go straight to checkout.
+        navigate('/payment', { state: { payload } });
     };
 
     const fadeInUp = {
@@ -264,7 +296,84 @@ const ProductPage = () => {
                         <span className="quantity-value">{quantity}</span>
                         <button className="quantity-btn" onClick={() => setQuantity(quantity + 1)}>+</button>
                     </div>
-                    <p style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '2rem' }}>Total: ₹ {totalAmount.toLocaleString()}</p>
+
+                    {/* Coupon Code Section */}
+                    <div style={{
+                        marginBottom: '1.5rem', padding: '1rem 1.2rem',
+                        backgroundColor: '#fff', borderRadius: '8px',
+                        border: '1px solid rgba(0,0,0,0.1)',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                            <Tag size={16} color="var(--color-gold)" />
+                            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                Have a Discount Code?
+                            </span>
+                        </div>
+                        
+                        {!appliedCoupon ? (
+                            <form onSubmit={handleApplyCoupon} style={{ display: 'flex', gap: '0.5rem' }}>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Code"
+                                    value={couponInput}
+                                    onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                                    style={{
+                                        flex: 1, padding: '0.6rem 0.8rem', border: '1px solid #ccc',
+                                        borderRadius: '4px', fontSize: '0.9rem', letterSpacing: '1px',
+                                        textTransform: 'uppercase', fontWeight: '600'
+                                    }}
+                                />
+                                <button
+                                    type="submit"
+                                    style={{
+                                        background: 'var(--color-dark)', color: '#fff', border: 'none',
+                                        padding: '0.6rem 1.2rem', borderRadius: '4px', cursor: 'pointer',
+                                        fontFamily: 'var(--font-serif)', fontSize: '0.85rem', letterSpacing: '1px'
+                                    }}
+                                >
+                                    APPLY
+                                </button>
+                            </form>
+                        ) : (
+                            <div style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                background: 'rgba(212,175,55,0.15)', border: '1px solid var(--color-gold)',
+                                padding: '0.6rem 0.8rem', borderRadius: '4px'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-dark)', fontSize: '0.9rem', fontWeight: '600' }}>
+                                    <Check size={16} color="green" />
+                                    <span>{appliedCoupon.code} applied ({appliedCoupon.discountPercent}% OFF)</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={handleRemoveCoupon}
+                                    style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                                    title="Remove Coupon"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
+                        )}
+
+                        {couponError && (
+                            <p style={{ color: '#c0392b', fontSize: '0.8rem', marginTop: '0.5rem', margin: 0 }}>
+                                {couponError}
+                            </p>
+                        )}
+                    </div>
+
+                    <div style={{ marginBottom: '2rem' }}>
+                        {appliedCoupon && (
+                            <div style={{ fontSize: '0.95rem', color: '#666', marginBottom: '0.3rem' }}>
+                                Subtotal: <span style={{ textDecoration: 'line-through' }}>₹ {rawTotal.toLocaleString()}</span>
+                                <span style={{ color: 'green', marginLeft: '0.5rem', fontWeight: 'bold' }}>- ₹ {discountAmount.toLocaleString()} ({appliedCoupon.discountPercent}% OFF)</span>
+                            </div>
+                        )}
+                        <p style={{ fontSize: '1.3rem', fontWeight: 'bold', margin: 0, color: 'var(--color-dark)' }}>
+                            Total: ₹ {totalAmount.toLocaleString()}
+                        </p>
+                    </div>
 
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

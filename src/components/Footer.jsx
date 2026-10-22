@@ -51,7 +51,8 @@ const Footer = () => {
                         {/* <Link to="/ritual" className="footer-link">The Ritual</Link> */}
                         <Link to="/about" className="footer-link">About Us</Link>
                         <Link to="/contact" className="footer-link">Contact Us</Link>
-                        <Link to="/account" className="footer-link">My Account</Link>
+                        {/* Account disabled along with login/signup. */}
+                        {/* <Link to="/account" className="footer-link">My Account</Link> */}
                         <Link to="/privacy-policy" className="footer-link">Privacy Policy</Link>
                         <Link to="/return-policy" className="footer-link">Return and Refunds</Link>
                         <Link to="/disclaimer" className="footer-link">Disclaimer</Link>
@@ -65,6 +66,8 @@ const Footer = () => {
                 <div>
                     <h4 style={{ color: 'var(--color-gold)', fontSize: '0.9rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}>Quick Links</h4>
                     <div style={{ fontSize: '0.85rem' }}>
+                        <Link to="/diwali-gifting" className="footer-link">Diwali Gifting</Link>
+                        {/* <Link to="/customized-bath-salt" className="footer-link">Custom Bath Salts</Link> */}
                         <Link to="/ingredients" className="footer-link">Ingredients</Link>
                         <Link to="/blogs" className="footer-link">Blogs</Link>
                     </div>

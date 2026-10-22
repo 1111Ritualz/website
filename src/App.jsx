@@ -6,13 +6,14 @@ import ProductGrid from './components/ProductGrid';
 import Founder from './components/Founder';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Verify from './components/Verify';
-import ForgotPassword from './components/ForgotPassword';
-import Logout from './components/Logout';
-import ProtectedRoute from './components/ProtectedRoute';
-import Account from './components/Account';
+// Auth pages are disabled — no account is required to place an order.
+// import Login from './components/Login';
+// import Signup from './components/Signup';
+// import Verify from './components/Verify';
+// import ForgotPassword from './components/ForgotPassword';
+// import Logout from './components/Logout';
+// import ProtectedRoute from './components/ProtectedRoute';
+// import Account from './components/Account';
 import Narrative from './components/Narrative';
 import Countdown from './components/Countdown';
 import Shop from './components/Shop';
@@ -36,6 +37,8 @@ import Blogs from './components/Blogs';
 import RitualPage from './components/RitualPage';
 import PaymentPage from './components/PaymentPage';
 import OrdersPage from './components/OrdersPage';
+import DiwaliGiftingPage from './components/DiwaliGiftingPage';
+// import CustomizedBathSaltPage from './components/CustomizedBathSaltPage';
 import { products } from './data';
 
 function App() {
@@ -65,11 +68,12 @@ function App() {
               {/* <Testimonials /> */}
             </>
           } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/verify" element={<Verify />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/logout" element={<Logout />} />
+          {/* Auth pages disabled — no login/signup required to order. */}
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route path="/signup" element={<Signup />} /> */}
+          {/* <Route path="/verify" element={<Verify />} /> */}
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+          {/* <Route path="/logout" element={<Logout />} /> */}
           <Route path="/ritual" element={<RitualPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -83,21 +87,16 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/account" element={
+          <Route path="/diwali-gifting" element={<DiwaliGiftingPage />} />
+          {/* <Route path="/customized-bath-salt" element={<CustomizedBathSaltPage />} /> */}
+          {/* Account page disabled along with login/signup. */}
+          {/* <Route path="/account" element={
             <ProtectedRoute>
               <Account />
             </ProtectedRoute>
-          } />
-          <Route path="/payment" element={
-            <ProtectedRoute>
-              <PaymentPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/orders" element={
-            <ProtectedRoute>
-              <OrdersPage />
-            </ProtectedRoute>
-          } />
+          } /> */}
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
           <Route path="*" element={<div className="container section-padding text-center"><h2>Page Not Found</h2></div>} />
         </Routes>
 

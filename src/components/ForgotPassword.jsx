@@ -79,6 +79,9 @@ const ForgotPassword = () => {
                         required
                         style={{ padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc' }}
                     />
+                    <small style={{ color: '#666', fontSize: '0.8rem', marginTop: '-0.5rem' }}>
+                        Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.
+                    </small>
                     <button type="submit" className="btn" disabled={loading} style={{ marginTop: '1rem' }}>
                         {loading ? 'Resetting...' : 'Reset Password'}
                     </button>

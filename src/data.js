@@ -1,14 +1,26 @@
 import oceanshield from './assets/images/oceanshield.jpeg';
+import goldenlight from './assets/images/goldenlight.jpeg';
 
 export const products = [
     {
         id: 1,
         name: "OCEAN'S SHIELD",
         price: "₹ 1,499",
+        priceNum: 1499,
         image: oceanshield,
-        category: "Aura Cleanzing"
+        category: "Aura Cleansing"
+    },
+    {
+        id: 2,
+        name: "GOLDEN LIGHT",
+        price: "₹ 999",
+        priceNum: 999,
+        image: goldenlight,
+        category: "Diwali Limited Edition",
+        badge: "LIMITED EDITION",
+        limitedEdition: true,
+        preOrderDeadline: "29 October 2026"
     }
-
 ];
 
 export const collections = [

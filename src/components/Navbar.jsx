@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { User, Menu, X } from 'lucide-react';
+// Auth links are disabled — no login/signup required to order.
+// import { User, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
 import logo from '../assets/images/logo.jpeg';
 
 const Navbar = () => {
-    const { user } = useAuth();
+    // const { user } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
@@ -32,15 +34,18 @@ const Navbar = () => {
     const navLinks = [
         { label: 'Home',  to: '/' },
         { label: 'Shop',  to: '/shop' },
+        { label: 'Diwali Gifting', to: '/diwali-gifting' },
+        // { label: 'Custom Salt', to: '/customized-bath-salt' },
     ];
 
-    const authLinks = user
-        ? [
-            { label: 'Account', to: '/account' },
-            { label: 'Orders',  to: '/orders'  },
-            { label: 'Logout',  to: '/logout'  },
-          ]
-        : [{ label: 'Login', to: '/login', icon: true }];
+    // Auth links disabled — login/signup is no longer required to order.
+    // const authLinks = user
+    //     ? [
+    //         { label: 'Account', to: '/account' },
+    //         { label: 'Orders',  to: '/orders'  },
+    //         { label: 'Logout',  to: '/logout'  },
+    //       ]
+    //     : [{ label: 'Login', to: '/login', icon: true }];
 
     return (
         <>
@@ -193,14 +198,14 @@ const Navbar = () => {
                         ))}
                     </ul>
 
-                    {/* Auth links — right (desktop) */}
-                    <div className="nb-auth">
+                    {/* Auth links — right (desktop) — disabled */}
+                    {/* <div className="nb-auth">
                         {authLinks.map(l => (
                             <Link key={l.to} to={l.to} style={{ color: textColor }}>
                                 {l.icon ? <User size={20} strokeWidth={1.8} /> : l.label}
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
 
                     {/* Hamburger — mobile only */}
                     <button
@@ -230,13 +235,13 @@ const Navbar = () => {
                     <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)}>{l.label}</Link>
                 ))}
 
-                <div className="nb-sep" />
-
-                {authLinks.map(l => (
+                {/* Separator + auth links disabled — no login/signup required to order. */}
+                {/* <div className="nb-sep" /> */}
+                {/* {authLinks.map(l => (
                     <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)}>
                         {l.label || 'Login'}
                     </Link>
-                ))}
+                ))} */}
             </div>
         </>
     );

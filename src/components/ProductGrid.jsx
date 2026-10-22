@@ -52,7 +52,7 @@ const ProductGrid = ({ title, products, id }) => {
                                 </span>
                             </div>
                             <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>{product.name}</h3>
-                            <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>₹ 1,099</p>
+                            <p style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>₹ 1,499</p>
                         </Link>
                     ))}
                 </div>

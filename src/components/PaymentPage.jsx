@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { generateInvoicePDF } from '../services/invoiceGenerator';
 import { sendInvoiceEmail } from '../services/emailService';
+import { checkServiceability, blocksCheckout, SERVICEABILITY } from '../services/serviceability';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -45,7 +46,8 @@ const PaymentPage = () => {
     const { user }  = useAuth();
 
     const payload = location.state?.payload || {
-        totalAmount: 1499, quantity: 1, productId: 1, productName: "Ocean's Shield"
+        totalAmount: 1499, quantity: 1, productId: 1, productName: "Ocean's Shield",
+        subtotal: 1499, discountCode: '', discountAmount: 0
     };
 
     /* ── Form state ── */
@@ -56,6 +58,39 @@ const PaymentPage = () => {
     const [error,   setError]   = useState('');
     const [loading, setLoading] = useState(false);
 
+    /* ── Pincode serviceability ──
+       Only the resolved verdict is stored, tagged with the pincode it belongs to.
+       `pincodeCheck` below is derived during render rather than kept in state, so
+       there is no intermediate setState to trigger on each keystroke. */
+    const [pincodeVerdict, setPincodeVerdict] = useState(null);
+
+    /* Look the pincode up once it reaches 6 digits, debounced so a fast typist
+       does not fire a request per keystroke. */
+    useEffect(() => {
+        const pin = address.pincode;
+        if (!/^\d{6}$/.test(pin)) return;
+
+        let cancelled = false;
+        const timer = setTimeout(async () => {
+            const verdict = await checkServiceability(pin);
+            if (!cancelled) setPincodeVerdict({ pincode: pin, ...verdict });
+        }, 500);
+
+        return () => { cancelled = true; clearTimeout(timer); };
+    }, [address.pincode]);
+
+    /* Derived: what the pincode field should currently show. A verdict only
+       counts once it matches the pincode actually in the input, so a stale result
+       from a previously typed pincode can never gate the current one. */
+    const isCompletePin = /^\d{6}$/.test(address.pincode);
+    const isCurrentVerdict = pincodeVerdict?.pincode === address.pincode;
+
+    const pincodeCheck = !isCompletePin
+        ? { status: SERVICEABILITY.INVALID, message: '' }
+        : !isCurrentVerdict
+            ? { status: SERVICEABILITY.INVALID, message: '', pending: true }
+            : pincodeVerdict;
+
     /* ── Validate form ── */
     const validate = () => {
         if (!/^\d{10}$/.test(phone)) {
@@ -64,6 +99,18 @@ const PaymentPage = () => {
         }
         if (!address.fullName || !address.line1 || !address.city || !address.state || !address.pincode) {
             setError('Please fill all compulsory address fields.');
+            return false;
+        }
+        if (!/^\d{6}$/.test(address.pincode)) {
+            setError('Please enter a valid 6-digit pincode.');
+            return false;
+        }
+        // A pincode we have confirmed as undeliverable stops the order. A lookup
+        // that merely failed does not: the address is captured either way and can
+        // be corrected before dispatch, so a third-party outage should not stop a
+        // customer paying.
+        if (blocksCheckout(pincodeCheck)) {
+            setError(pincodeCheck.message);
             return false;
         }
         setError('');
@@ -99,18 +146,22 @@ const PaymentPage = () => {
             notes: {
                 address:   `${address.line1}, ${address.line2 || ''}, ${address.city}, ${address.state} - ${address.pincode}`,
                 productId: `prod_00${payload.productId}`,
+                discountCode: payload.discountCode || 'NONE',
             },
             theme: { color: '#1a1a1a' },
 
             handler: async (response) => {
                 /* Payment successful — save order → generate invoice → email → redirect */
                 const orderPayload = {
-                    userId:            user?.username || user?.sub || 'anonymous',
+                    userId:            user?.username || user?.sub || `guest-${phone}`,
                     email:             user?.email || '',
                     phone,
                     productId:         `prod_00${payload.productId}`,
                     productName:       payload.productName || "Ocean's Shield",
                     quantity:          payload.quantity || 1,
+                    subtotal:          payload.subtotal || payload.totalAmount,
+                    discountCode:      payload.discountCode || '',
+                    discountAmount:    payload.discountAmount || 0,
                     totalAmount:       payload.totalAmount || 1499,
                     address,
                     paymentMethod:     'razorpay',
@@ -122,25 +173,26 @@ const PaymentPage = () => {
                     const orderId = await saveOrderToBackend(orderPayload);
                     const fullOrder = { ...orderPayload, orderId };
 
-                    // 1. Generate PDF — download + get base64 for email
+                    // 1. Generate PDF — download & email
                     const pdfResult = await generateInvoicePDF(fullOrder, false);
                     pdfResult.doc.save(pdfResult.fileName); // trigger download
 
-                    // 2. Send email in background (non-blocking)
-                    sendInvoiceEmail(fullOrder, pdfResult.base64, pdfResult.fileName)
-                        .catch(err => console.warn('Email send failed (non-fatal):', err));
+                    // 2. Send email via EmailJS
+                    sendInvoiceEmail(fullOrder, pdfResult.base64, pdfResult.fileName).catch(err => console.error("Email send error:", err));
 
                     setLoading(false);
-                    navigate('/orders', { state: { orderId, ...payload } });
+                    navigate('/orders', { state: { orderId, order: fullOrder } });
                 } catch {
                     const fallbackId = 'ORD-' + response.razorpay_payment_id.slice(-6);
                     const fallbackOrder = { ...orderPayload, orderId: fallbackId };
                     const pdfResult = await generateInvoicePDF(fallbackOrder, false);
                     pdfResult.doc.save(pdfResult.fileName);
-                    sendInvoiceEmail(fallbackOrder, pdfResult.base64, pdfResult.fileName)
-                        .catch(() => {});
+
+                    // Send email via EmailJS fallback
+                    sendInvoiceEmail(fallbackOrder, pdfResult.base64, pdfResult.fileName).catch(err => console.error("Email send error:", err));
+
                     setLoading(false);
-                    navigate('/orders', { state: { orderId: fallbackId, ...payload } });
+                    navigate('/orders', { state: { orderId: fallbackId, order: fallbackOrder } });
                 }
             },
 
@@ -163,17 +215,19 @@ const PaymentPage = () => {
     const handleWhatsApp = () => {
         if (!validate()) return;
         const addrStr = `${address.fullName}, ${address.line1}${address.line2 ? ', ' + address.line2 : ''}, ${address.city}, ${address.state} - ${address.pincode}`;
+        const discountStr = payload.discountCode ? `\n• Coupon Applied: ${payload.discountCode} (-₹${payload.discountAmount})` : '';
         const msg =
             `Hi, I'd like to order:\n` +
             `• Product: ${payload.productName || "Ocean's Shield"}\n` +
             `• Qty: ${payload.quantity}\n` +
-            `• Total: ₹${payload.totalAmount.toLocaleString()}\n` +
+            `• Subtotal: ₹${(payload.subtotal || payload.totalAmount).toLocaleString()}${discountStr}\n` +
+            `• Total Amount: ₹${payload.totalAmount.toLocaleString()}\n` +
             `• Phone: ${phone}\n` +
             `• Address: ${addrStr}`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
-    const handleCancel = () => navigate(`/product/${payload.productId}`);
+    const handleCancel = () => navigate(-1);
 
     /* ─── Shared input style ─── */
     const inputStyle = {
@@ -214,11 +268,16 @@ const PaymentPage = () => {
                     <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: '#fff', margin: 0 }}>
                         Complete Your Order
                     </h1>
-                    <p style={{ color: 'rgba(255,255,255,0.55)', marginTop: '0.5rem', fontSize: '0.9rem' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '0.5rem', fontSize: '0.9rem' }}>
                         {payload.productName || "Ocean's Shield"} × {payload.quantity}
                     </p>
+                    {payload.discountCode && (
+                        <p style={{ color: 'var(--color-gold)', fontSize: '0.85rem', margin: '0.4rem 0 0 0', fontWeight: 'bold' }}>
+                            🏷️ Code {payload.discountCode} applied (-₹{payload.discountAmount})
+                        </p>
+                    )}
                     <div style={{
-                        marginTop: '1.2rem',
+                        marginTop: '1rem',
                         fontSize: '2rem',
                         fontFamily: 'var(--font-serif)',
                         color: 'var(--color-gold)',
@@ -257,7 +316,7 @@ const PaymentPage = () => {
                     <input
                         type="text" value={address.fullName}
                         onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
-                        placeholder="John Doe"
+                        placeholder="Full Name"
                         style={inputStyle}
                     />
 
@@ -302,10 +361,48 @@ const PaymentPage = () => {
                         <label style={labelStyle}>Pincode *</label>
                         <input
                             type="text" value={address.pincode} maxLength="6"
+                            inputMode="numeric"
                             onChange={(e) => setAddress({ ...address, pincode: e.target.value.replace(/\D/g, '') })}
+                            onBlur={() => setError('')}
                             placeholder="411001"
-                            style={inputStyle}
+                            aria-invalid={blocksCheckout(pincodeCheck)}
+                            aria-describedby="pincode-status"
+                            style={{
+                                ...inputStyle,
+                                marginBottom: pincodeCheck.message ? '0.5rem' : '1rem',
+                                borderColor: blocksCheckout(pincodeCheck)
+                                    ? '#c0392b'
+                                    : pincodeCheck.status === SERVICEABILITY.OK ? '#2e7d32' : undefined,
+                            }}
                         />
+
+                        {/* Serviceability verdict for the entered pincode */}
+                        <div id="pincode-status" aria-live="polite" style={{ minHeight: '1.25rem' }}>
+                            {pincodeCheck.pending && (
+                                <p style={{ fontSize: '0.8rem', color: 'var(--color-dark)', opacity: 0.6, margin: '0 0 0.75rem' }}>
+                                    Checking delivery availability…
+                                </p>
+                            )}
+
+                            {pincodeCheck.status === SERVICEABILITY.OK && (
+                                <p style={{ fontSize: '0.8rem', color: '#2e7d32', margin: '0 0 0.75rem' }}>
+                                    ✓ Deliverable to {pincodeCheck.city || 'this pincode'}
+                                    {pincodeCheck.state ? `, ${pincodeCheck.state}` : ''}
+                                </p>
+                            )}
+
+                            {pincodeCheck.status === SERVICEABILITY.UNSERVICEABLE && (
+                                <p style={{ fontSize: '0.8rem', color: '#c0392b', margin: '0 0 0.75rem' }}>
+                                    ✕ {pincodeCheck.message}
+                                </p>
+                            )}
+
+                            {pincodeCheck.status === SERVICEABILITY.UNREACHABLE && (
+                                <p style={{ fontSize: '0.8rem', color: '#b26a00', margin: '0 0 0.75rem' }}>
+                                    ⚠ {pincodeCheck.message}
+                                </p>
+                            )}
+                        </div>
                     </div>
 
                     {error && (

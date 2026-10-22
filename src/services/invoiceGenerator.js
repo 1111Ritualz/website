@@ -229,7 +229,6 @@ export async function generateInvoicePDF(order, download = true) {
     };
 
     drawTotalLine('Subtotal',   `Rs. ${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`);
-    drawTotalLine('Shipping',   'FREE');
     drawTotalLine('GST / Tax',  'Inclusive');
 
     hline(at(), [200, 185, 150], totX, PW - MR);
@@ -266,11 +265,11 @@ export async function generateInvoicePDF(order, download = true) {
     move(20);
 
     setFont('bold', 10, 160, 135, 85);
-    txt('"May this ritual cleanse, protect, and restore you."', PW / 2, at(), { align: 'center' });
+    txt('"We bottled the ocean, You create the ritual."', PW / 2, at(), { align: 'center' });
     move(18);
 
     setFont('normal', 8.5, 140, 140, 140);
-    txt('Thank you for your purchase!  Questions? Email us: 1111ritualz@gmail.com', PW / 2, at(), { align: 'center' });
+    txt('Questions? Email us: 1111ritualz@gmail.com', PW / 2, at(), { align: 'center' });
     move(12);
 
     setFont('normal', 7.5, 160, 160, 160);

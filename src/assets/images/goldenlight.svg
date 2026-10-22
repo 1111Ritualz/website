@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Golden Light limited edition Diwali bathing ritual jar">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#6b2f12"/>
+      <stop offset="42%" stop-color="#3a100c"/>
+      <stop offset="100%" stop-color="#120406"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f6c65b" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#d4af37" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9e7a6"/>
+      <stop offset="22%" stop-color="#e2bd5c"/>
+      <stop offset="50%" stop-color="#b8862b"/>
+      <stop offset="74%" stop-color="#eacb74"/>
+      <stop offset="100%" stop-color="#8a5c16"/>
+    </linearGradient>
+    <linearGradient id="goldSoft" x1="0" y1="0" x2="1" y2="3">
+      <stop offset="0%" stop-color="#f6dfa0"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#9a6a1d"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.30"/>
+      <stop offset="12%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="48%" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="78%" stop-color="#ffe9bd" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="salt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7e4c1"/>
+      <stop offset="48%" stop-color="#e8c99a"/>
+      <stop offset="100%" stop-color="#cfa36e"/>
+    </linearGradient>
+    <linearGradient id="labelCream" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf5e2"/>
+      <stop offset="50%" stop-color="#f7ead0"/>
+      <stop offset="100%" stop-color="#efdcc0"/>
+    </linearGradient>
+    <linearGradient id="petal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b8485c"/>
+      <stop offset="100%" stop-color="#6e1f35"/>
+    </linearGradient>
+    <radialGradient id="flame" cx="50%" cy="70%" r="60%">
+      <stop offset="0%" stop-color="#fff6c4"/>
+      <stop offset="45%" stop-color="#ffcf4d"/>
+      <stop offset="100%" stop-color="#e8891c"/>
+    </radialGradient>
+    <pattern id="saltGrain" width="28" height="28" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="transparent"/>
+      <circle cx="4" cy="6" r="3.2" fill="#fff5df" opacity="0.85"/>
+      <circle cx="18" cy="4" r="2.4" fill="#d9b183" opacity="0.85"/>
+      <circle cx="23" cy="14" r="3" fill="#f9e8ca" opacity="0.9"/>
+      <circle cx="9" cy="17" r="2.2" fill="#c58d6d" opacity="0.75"/>
+      <circle cx="17" cy="23" r="2.8" fill="#e1bd90" opacity="0.9"/>
+      <circle cx="27" cy="26" r="1.8" fill="#b8795c" opacity="0.7"/>
+      <circle cx="2" cy="25" r="2" fill="#f6e3c2" opacity="0.8"/>
+    </pattern>
+    <pattern id="lidRidge" width="13" height="64" patternUnits="userSpaceOnUse">
+      <rect width="13" height="64" fill="url(#gold)"/>
+      <rect x="8" width="2" height="64" fill="#7d5313" opacity="0.35"/>
+      <rect x="2" width="1.4" height="64" fill="#fff1bf" opacity="0.35"/>
+    </pattern>
+    <clipPath id="jarClip">
+      <rect x="210" y="276" width="380" height="584" rx="38"/>
+    </clipPath>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <!-- backdrop -->
+  <rect width="800" height="1000" fill="url(#bgGlow)"/>
+  <circle cx="400" cy="470" r="360" fill="url(#halo)"/>
+  <circle cx="130" cy="180" r="4" fill="#f6d67e" opacity="0.55"/>
+  <circle cx="652" cy="140" r="6" fill="#f6d67e" opacity="0.4"/>
+  <circle cx="694" cy="330" r="3" fill="#ffdf9a" opacity="0.65"/>
+  <circle cx="96" cy="392" r="5" fill="#ffdf9a" opacity="0.35"/>
+  <circle cx="606" cy="238" r="2.6" fill="#ffe9b0" opacity="0.8"/>
+  <circle cx="178" cy="322" r="2.4" fill="#ffe9b0" opacity="0.6"/>
+  <circle cx="566" cy="86" r="2.8" fill="#ffe9b0" opacity="0.55"/>
+  <circle cx="312" cy="72" r="2" fill="#ffe9b0" opacity="0.5"/>
+
+  <!-- marigold garland hints -->
+  <g opacity="0.55">
+    <circle cx="64" cy="780" r="7" fill="#d6861f"/>
+    <circle cx="90" cy="806" r="5" fill="#e8a52f"/>
+    <circle cx="56" cy="824" r="4" fill="#c9761a"/>
+    <circle cx="732" cy="770" r="7" fill="#d6861f"/>
+    <circle cx="708" cy="800" r="5" fill="#e8a52f"/>
+    <circle cx="742" cy="820" r="4" fill="#c9761a"/>
+  </g>
+
+  <!-- table shadow -->
+  <ellipse cx="400" cy="884" rx="252" ry="36" fill="#000000" opacity="0.55" filter="url(#softShadow)"/>
+  <ellipse cx="400" cy="872" rx="210" ry="22" fill="#f0b64f" opacity="0.16" filter="url(#softGlow)"/>
+
+  <!-- loose salt & botanicals -->
+  <g opacity="0.95">
+    <circle cx="188" cy="884" r="5" fill="#f3d9b0"/>
+    <circle cx="206" cy="896" r="3.5" fill="#d8ac7d"/>
+    <circle cx="164" cy="900" r="4" fill="#ffeacc"/>
+    <circle cx="238" cy="904" r="3" fill="#c8906c"/>
+    <circle cx="612" cy="886" r="5" fill="#f3d9b0"/>
+    <circle cx="588" cy="900" r="3.5" fill="#d8ac7d"/>
+    <circle cx="636" cy="902" r="4" fill="#ffeacc"/>
+    <circle cx="560" cy="908" r="3" fill="#c8906c"/>
+    <ellipse cx="642" cy="858" rx="12" ry="6" transform="rotate(-18 642 858)" fill="url(#petal)"/>
+    <ellipse cx="156" cy="856" rx="10" ry="5" transform="rotate(22 156 856)" fill="url(#petal)"/>
+    <path d="M596 872c9-7 18-4 24 2" stroke="#e08a1e" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M208 878c-8-6-16-4-22 1" stroke="#d97f16" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- jar body -->
+  <rect x="210" y="276" width="380" height="584" rx="38" fill="#2b110c" opacity="0.65"/>
+  <g clip-path="url(#jarClip)">
+    <rect x="210" y="276" width="380" height="584" fill="url(#salt)"/>
+    <rect x="210" y="276" width="380" height="584" fill="url(#saltGrain)"/>
+    <!-- rose petals and botanicals inside -->
+    <g opacity="0.9">
+      <ellipse cx="266" cy="330" rx="20" ry="10" transform="rotate(-28 266 330)" fill="url(#petal)"/>
+      <ellipse cx="330" cy="310" rx="15" ry="8" transform="rotate(18 330 310)" fill="#a63a51"/>
+      <ellipse cx="470" cy="352" rx="22" ry="10" transform="rotate(34 470 352)" fill="url(#petal)"/>
+      <ellipse cx="520" cy="318" rx="13" ry="7" transform="rotate(-14 520 318)" fill="#8f2d44"/>
+      <ellipse cx="300" cy="752" rx="18" ry="9" transform="rotate(24 300 752)" fill="url(#petal)"/>
+      <ellipse cx="488" cy="772" rx="21" ry="9" transform="rotate(-26 488 772)" fill="#a63a51"/>
+      <ellipse cx="548" cy="742" rx="14" ry="7" transform="rotate(12 548 742)" fill="#8f2d44"/>
+      <ellipse cx="264" cy="806" rx="15" ry="7" transform="rotate(-18 264 806)" fill="url(#petal)"/>
+      <path d="M360 340c8-6 16-4 21 3" stroke="#b06a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M432 334c-7-7-15-5-20 1" stroke="#c07a24" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M420 760c9-7 17-5 22 2" stroke="#b06a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <ellipse cx="382" cy="764" rx="9" ry="3.4" transform="rotate(20 382 764)" fill="#7d5a25"/>
+      <ellipse cx="446" cy="720" rx="8" ry="3" transform="rotate(-24 446 720)" fill="#6d4a1c"/>
+      <circle cx="342" cy="742" r="2.6" fill="#5b3a1d"/>
+      <circle cx="506" cy="338" r="2.4" fill="#5b3a1d"/>
+    </g>
+    <!-- glass tint -->
+    <rect x="210" y="276" width="380" height="584" fill="url(#glass)"/>
+    <rect x="226" y="300" width="24" height="520" rx="12" fill="#ffffff" opacity="0.10"/>
+    <rect x="554" y="320" width="16" height="470" rx="8" fill="#ffffff" opacity="0.10"/>
+  </g>
+  <rect x="210" y="276" width="380" height="584" rx="38" fill="none" stroke="#ffe6ae" stroke-opacity="0.38" stroke-width="2"/>
+
+  <!-- label -->
+  <g>
+    <rect x="236" y="372" width="328" height="330" rx="4" fill="url(#labelCream)" stroke="url(#goldSoft)" stroke-width="3"/>
+    <rect x="246" y="382" width="308" height="310" rx="2" fill="none" stroke="#b8892f" stroke-width="1" stroke-opacity="0.85"/>
+    <path d="M246 402h308M246 672h308" stroke="#b8892f" stroke-width="0.8" stroke-opacity="0.45"/>
+
+    <!-- corner flourishes -->
+    <g stroke="#b8892f" stroke-width="1.2" fill="none" opacity="0.8">
+      <path d="M258 394c0 10 8 18 18 18M542 394c0 10-8 18-18 18M258 674c0-10 8-18 18-18M542 674c0-10-8-18-18-18"/>
+      <circle cx="262" cy="398" r="1.8" fill="#b8892f"/>
+      <circle cx="538" cy="398" r="1.8" fill="#b8892f"/>
+      <circle cx="262" cy="670" r="1.8" fill="#b8892f"/>
+      <circle cx="538" cy="670" r="1.8" fill="#b8892f"/>
+    </g>
+
+    <text x="400" y="424" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="11" letter-spacing="4" fill="#8a6423">11:11 RITUALZ</text>
+    <text x="400" y="471" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="38" letter-spacing="5" fill="#6e3a18">GOLDEN</text>
+    <text x="400" y="511" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="38" letter-spacing="10" fill="#6e3a18">LIGHT</text>
+
+    <line x1="318" y1="527" x2="482" y2="527" stroke="#c39a44" stroke-width="0.8"/>
+    <path d="M400 523l3 4-3 4-3-4z" fill="#c39a44"/>
+
+    <text x="400" y="548" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="12" letter-spacing="2.5" fill="#8a5a2a">A Diwali Ritual</text>
+    <text x="400" y="566" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9.5" letter-spacing="3.2" fill="#9b7330">FOR ABUNDANCE &amp; NEW BEGINNINGS</text>
+
+    <!-- diya icon -->
+    <g transform="translate(400 610)">
+      <ellipse cx="0" cy="12" rx="30" ry="8" fill="#a97627" opacity="0.25"/>
+      <path d="M-27 6c2 9 12 14 27 14s25-5 27-14c-8 4-18 6-27 6s-19-2-27-6z" fill="url(#goldSoft)"/>
+      <path d="M0 -14c5 7 8 11 8 15a8 8 0 1 1-16 0c0-4 3-8 8-15z" fill="url(#flame)"/>
+      <circle cx="0" cy="1" r="2.4" fill="#fff8d8"/>
+    </g>
+
+    <text x="400" y="650" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" letter-spacing="2.8" fill="#8a6423">LIMITED EDITION · DIWALI 2026</text>
+    <text x="400" y="676" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="10" letter-spacing="2.4" fill="#8a5a2a">HIMALAYAN PINK SALT · ROSE · SAFFRON</text>
+  </g>
+
+  <!-- glass highlights over label -->
+  <path d="M242 380c18 12 26 34 26 62v252c0 30-6 50-22 64" stroke="#ffffff" stroke-opacity="0.22" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+  <!-- neck + lid -->
+  <rect x="248" y="250" width="304" height="40" rx="10" fill="#3b1b10" opacity="0.5"/>
+  <rect x="252" y="252" width="296" height="34" rx="8" fill="url(#glass)" stroke="#ffe6ae" stroke-opacity="0.3"/>
+  <rect x="222" y="196" width="356" height="64" rx="12" fill="url(#lidRidge)" stroke="#6d4511" stroke-width="1"/>
+  <rect x="222" y="196" width="356" height="10" rx="5" fill="#fff3c9" opacity="0.55"/>
+  <rect x="222" y="252" width="356" height="10" rx="4" fill="#7b4f12" opacity="0.55"/>
+  <rect x="238" y="206" width="324" height="44" rx="8" fill="none" stroke="#fff0bd" stroke-opacity="0.4"/>
+
+  <!-- light accents -->
+  <path d="M400 96v42M379 117h42" stroke="#ffd978" stroke-width="1.2" opacity="0.7"/>
+  <path d="M400 156l4 12 12 4-12 4-4 12-4-12-12-4 12-4z" fill="#ffd978" opacity="0.85"/>
+
+  <!-- caption -->
+  <text x="400" y="952" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="16" letter-spacing="7" fill="#f3d68f">GOLDEN LIGHT</text>
+  <text x="400" y="976" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" letter-spacing="4" fill="#c9a45c">PRE-ORDERS CLOSE 29 OCTOBER 2026</text>
+</svg>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { generateInvoicePDF } from '../services/invoiceGenerator';
+import { sendInvoiceEmail } from '../services/emailService';
 
 const API_BASE = 'https://ctif9i9ive.execute-api.ap-south-1.amazonaws.com/dev';
 
@@ -14,10 +15,23 @@ const OrdersPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const [emailInput, setEmailInput] = useState('');
+    const [emailingOrderId, setEmailingOrderId] = useState(null);
+    const [emailStatus, setEmailStatus] = useState('');
+
     // Show success banner if redirected from payment
     const newOrderId = location.state?.orderId || null;
+    // Guests get the just-placed order from navigation state (no account lookup).
+    const guestOrder = location.state?.order || null;
 
     const fetchOrders = useCallback(async () => {
+        // No login/signup: show only the order handed over from checkout.
+        if (!user) {
+            setOrders(guestOrder ? [guestOrder] : []);
+            setError('');
+            setLoading(false);
+            return;
+        }
         setLoading(true);
         setError('');
         try {
@@ -36,11 +50,27 @@ const OrdersPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [user]);
+    }, [user, guestOrder]);
 
     useEffect(() => {
         fetchOrders();
     }, [fetchOrders]);
+
+    const handleSendEmail = async (order) => {
+        if (!emailInput) return;
+        setEmailingOrderId(order.orderId || order.id);
+        setEmailStatus('sending');
+        try {
+            const orderWithEmail = { ...order, email: emailInput };
+            const pdfResult = await generateInvoicePDF(orderWithEmail, false);
+            await sendInvoiceEmail(orderWithEmail, pdfResult.base64, pdfResult.fileName);
+            setEmailStatus('success');
+            setTimeout(() => { setEmailingOrderId(null); setEmailStatus(''); setEmailInput(''); }, 3000);
+        } catch (e) {
+            setEmailStatus('error');
+            setTimeout(() => { setEmailingOrderId(null); setEmailStatus(''); }, 3000);
+        }
+    };
 
     const statusStyle = (status = '') => {
         const s = status.toLowerCase();
@@ -170,7 +200,6 @@ const OrdersPage = () => {
                                         {order.status || 'ORDER PLACED'}
                                     </span>
 
-                                    {/* Download Invoice button */}
                                     <button
                                         onClick={() => generateInvoicePDF(order)}
                                         title="Download PDF Invoice"
@@ -186,12 +215,73 @@ const OrdersPage = () => {
                                             fontFamily: 'var(--font-serif)',
                                             letterSpacing: '0.5px',
                                             transition: 'opacity 0.2s',
+                                            width: '100%',
+                                            justifyContent: 'center'
                                         }}
                                         onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
                                         onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                                     >
-                                        ⬇ Invoice PDF
+                                        ⬇ Download Invoice
                                     </button>
+
+                                    {/* Email Invoice UI */}
+                                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+                                        {emailingOrderId === (order.orderId || order.id) ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                                <input 
+                                                    type="email" 
+                                                    placeholder="Enter email..." 
+                                                    value={emailInput}
+                                                    onChange={e => setEmailInput(e.target.value)}
+                                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '0.8rem' }}
+                                                />
+                                                <button 
+                                                    onClick={() => handleSendEmail(order)}
+                                                    disabled={emailStatus === 'sending'}
+                                                    style={{
+                                                        padding: '0.4rem',
+                                                        backgroundColor: emailStatus === 'success' ? '#28a745' : emailStatus === 'error' ? '#dc3545' : '#17a2b8',
+                                                        color: 'white',
+                                                        border: 'none',
+                                                        borderRadius: '4px',
+                                                        fontSize: '0.8rem',
+                                                        cursor: emailStatus === 'sending' ? 'not-allowed' : 'pointer'
+                                                    }}
+                                                >
+                                                    {emailStatus === 'sending' ? 'Sending...' : emailStatus === 'success' ? 'Sent!' : emailStatus === 'error' ? 'Error' : 'Send'}
+                                                </button>
+                                                <button 
+                                                    onClick={() => { setEmailingOrderId(null); setEmailStatus(''); }}
+                                                    style={{ padding: '0.3rem', background: 'none', border: 'none', color: '#666', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => { setEmailingOrderId(order.orderId || order.id); setEmailInput(''); setEmailStatus(''); }}
+                                                style={{
+                                                    display: 'flex', alignItems: 'center', gap: '0.4rem',
+                                                    padding: '0.5rem 1rem',
+                                                    backgroundColor: 'transparent',
+                                                    color: 'var(--color-dark)',
+                                                    border: '1px solid var(--color-dark)',
+                                                    borderRadius: '6px',
+                                                    fontSize: '0.82rem',
+                                                    cursor: 'pointer',
+                                                    fontFamily: 'var(--font-serif)',
+                                                    letterSpacing: '0.5px',
+                                                    transition: 'all 0.2s',
+                                                    width: '100%',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--color-dark)'; e.currentTarget.style.color = 'white'; }}
+                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--color-dark)'; }}
+                                            >
+                                                ✉ Email Invoice
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))}
