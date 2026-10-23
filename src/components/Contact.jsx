@@ -39,7 +39,7 @@ const Contact = () => {
                                 <div style={{ color: 'var(--color-gold)', marginTop: '4px' }}><MapPin size={24} /></div>
                                 <div>
                                     <h4 style={{ fontSize: '0.9rem', color: 'var(--color-gold)' }}>Manufactured By</h4>
-                                    <p style={{ marginBottom: '0.5rem', lineHeight: 1.6 }}>Eleveneleven Ritualz Pvt Ltd.</p>
+                                    <p style={{ marginBottom: '0.5rem', lineHeight: 1.6 }}>1111 Ritualz Pvt Ltd.</p>
                                     <h4 style={{ fontSize: '0.9rem', color: 'var(--color-gold)', marginTop: '1rem' }}>Address</h4>
                                     <p style={{ lineHeight: 1.6 }}>A-11/14 Shreeyash Apt,<br/>Jay Bharat Naka, Old Panvel. 410206</p>
                                 </div>

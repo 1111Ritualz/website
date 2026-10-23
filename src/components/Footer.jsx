@@ -104,7 +104,7 @@ const Footer = () => {
                     <h4 style={{ color: 'var(--color-gold)', fontSize: '0.9rem', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem' }}>Address</h4>
                     <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginBottom: '0.4rem', lineHeight: 1.6 }}>
                         Manufactured by:-<br/>
-                        Eleveneleven Ritualz Pvt Ltd.
+                        1111 Ritualz Pvt Ltd.
                     </p>
                     <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6 }}>
                         A-11/14 Shreeyash Apt, Jay Bharat Naka,<br/>Old Panvel. 410206
