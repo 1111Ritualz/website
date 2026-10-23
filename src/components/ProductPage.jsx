@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, ChevronRight, Star, Shield, Zap, Sparkles, Tag, Check, X } from 'lucide-react';
 import { products } from '../data';
 import { validateCoupon } from '../utils/discountUtils';
+import { FREE_SHIPPING_THRESHOLD } from '../utils/shippingCalculator';
 import oc1 from '../assets/images/oc1.jpeg';
 import oc2 from '../assets/images/oc2.jpeg';
 import oc3 from '../assets/images/oc3.jpeg';
@@ -287,6 +288,9 @@ const ProductPage = () => {
                         Bathe in the tide of protection, Let your aura shine.
                     </p>
                     <div className="price-tag">₹ {price.toLocaleString()}</div>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--color-gold)', marginTop: '-0.8rem', marginBottom: '0.5rem', letterSpacing: '0.5px' }}>
+                        🚚 + shipping fees at checkout &nbsp;·&nbsp; Free delivery on orders above ₹{FREE_SHIPPING_THRESHOLD.toLocaleString()}
+                    </p>
                     <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--color-text-light)', marginBottom: '1.5rem' }}>
                         Crafted with sea-kissed sea and protective herbs, who’s blend helps wash away negativity and creates a calming shield around your energy.
                     </p>
@@ -372,6 +376,11 @@ const ProductPage = () => {
                         )}
                         <p style={{ fontSize: '1.3rem', fontWeight: 'bold', margin: 0, color: 'var(--color-dark)' }}>
                             Total: ₹ {totalAmount.toLocaleString()}
+                        </p>
+                        <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.3rem' }}>
+                            {totalAmount >= FREE_SHIPPING_THRESHOLD
+                                ? '✓ You qualify for free delivery!'
+                                : `+ shipping charges calculated at checkout`}
                         </p>
                     </div>
 

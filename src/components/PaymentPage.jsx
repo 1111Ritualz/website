@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { generateInvoicePDF } from '../services/invoiceGenerator';
 import { sendInvoiceEmail } from '../services/emailService';
 import { checkServiceability, blocksCheckout, SERVICEABILITY } from '../services/serviceability';
+import { detectZone, calculateShipping, ZONE_LABELS, FREE_SHIPPING_THRESHOLD } from '../utils/shippingCalculator';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -58,14 +59,10 @@ const PaymentPage = () => {
     const [error,   setError]   = useState('');
     const [loading, setLoading] = useState(false);
 
-    /* ── Pincode serviceability ──
-       Only the resolved verdict is stored, tagged with the pincode it belongs to.
-       `pincodeCheck` below is derived during render rather than kept in state, so
-       there is no intermediate setState to trigger on each keystroke. */
+    /* ── Pincode serviceability ── */
     const [pincodeVerdict, setPincodeVerdict] = useState(null);
 
-    /* Look the pincode up once it reaches 6 digits, debounced so a fast typist
-       does not fire a request per keystroke. */
+    /* Look the pincode up once it reaches 6 digits, debounced */
     useEffect(() => {
         const pin = address.pincode;
         if (!/^\d{6}$/.test(pin)) return;
@@ -79,9 +76,7 @@ const PaymentPage = () => {
         return () => { cancelled = true; clearTimeout(timer); };
     }, [address.pincode]);
 
-    /* Derived: what the pincode field should currently show. A verdict only
-       counts once it matches the pincode actually in the input, so a stale result
-       from a previously typed pincode can never gate the current one. */
+    /* Derived: verdict matched to current pincode */
     const isCompletePin = /^\d{6}$/.test(address.pincode);
     const isCurrentVerdict = pincodeVerdict?.pincode === address.pincode;
 
@@ -90,6 +85,24 @@ const PaymentPage = () => {
         : !isCurrentVerdict
             ? { status: SERVICEABILITY.INVALID, message: '', pending: true }
             : pincodeVerdict;
+
+    /* ── Shipping calculation ──
+       Derived from pincode verdict + order quantity + product subtotal.
+       We use payload.subtotal (before shipping) for the free-shipping threshold. */
+    const shippingZone = (pincodeCheck.status === SERVICEABILITY.OK)
+        ? detectZone(address.pincode, pincodeCheck)
+        : null;
+
+    const productSubtotal = payload.totalAmount || 0;  // post-discount product cost
+
+    const shippingResult = (shippingZone !== null)
+        ? calculateShipping(payload.quantity || 1, shippingZone, productSubtotal)
+        : null;
+
+    const shippingCharge = shippingResult?.charge ?? 0;
+
+    /* Grand total = product total (already includes discount) + shipping */
+    const grandTotal = (payload.totalAmount || 0) + shippingCharge;
 
     /* ── Validate form ── */
     const validate = () => {
@@ -105,10 +118,6 @@ const PaymentPage = () => {
             setError('Please enter a valid 6-digit pincode.');
             return false;
         }
-        // A pincode we have confirmed as undeliverable stops the order. A lookup
-        // that merely failed does not: the address is captured either way and can
-        // be corrected before dispatch, so a third-party outage should not stop a
-        // customer paying.
         if (blocksCheckout(pincodeCheck)) {
             setError(pincodeCheck.message);
             return false;
@@ -133,20 +142,22 @@ const PaymentPage = () => {
 
         const options = {
             key:          RAZORPAY_KEY_ID,
-            amount:       payload.totalAmount * 100,   // paise (1 INR = 100 paise)
+            amount:       grandTotal * 100,   // paise (1 INR = 100 paise)
             currency:     'INR',
             name:         '1111 Ritualz',
             description:  `${payload.productName || "Ocean's Shield"} × ${payload.quantity}`,
-            image:        'https://www.1111ritualz.com/logo192.png',   // optional brand logo
+            image:        'https://www.1111ritualz.com/logo192.png',
             prefill: {
                 name:    address.fullName,
                 contact: phone,
                 email:   user?.email || '',
             },
             notes: {
-                address:   `${address.line1}, ${address.line2 || ''}, ${address.city}, ${address.state} - ${address.pincode}`,
-                productId: `prod_00${payload.productId}`,
+                address:      `${address.line1}, ${address.line2 || ''}, ${address.city}, ${address.state} - ${address.pincode}`,
+                productId:    `prod_00${payload.productId}`,
                 discountCode: payload.discountCode || 'NONE',
+                shippingZone: shippingZone || 'unknown',
+                shippingCharge: shippingCharge,
             },
             theme: { color: '#1a1a1a' },
 
@@ -162,7 +173,9 @@ const PaymentPage = () => {
                     subtotal:          payload.subtotal || payload.totalAmount,
                     discountCode:      payload.discountCode || '',
                     discountAmount:    payload.discountAmount || 0,
-                    totalAmount:       payload.totalAmount || 1499,
+                    shippingCharge,
+                    shippingZone:      shippingZone || 'unknown',
+                    totalAmount:       grandTotal,
                     address,
                     paymentMethod:     'razorpay',
                     razorpayPaymentId: response.razorpay_payment_id,
@@ -216,12 +229,17 @@ const PaymentPage = () => {
         if (!validate()) return;
         const addrStr = `${address.fullName}, ${address.line1}${address.line2 ? ', ' + address.line2 : ''}, ${address.city}, ${address.state} - ${address.pincode}`;
         const discountStr = payload.discountCode ? `\n• Coupon Applied: ${payload.discountCode} (-₹${payload.discountAmount})` : '';
+        const shippingStr = shippingResult?.isFree
+            ? '\n• Shipping: Free 🎉'
+            : shippingCharge > 0
+                ? `\n• Shipping: ₹${shippingCharge} (${ZONE_LABELS[shippingZone] || shippingZone})`
+                : '\n• Shipping: To be calculated';
         const msg =
             `Hi, I'd like to order:\n` +
             `• Product: ${payload.productName || "Ocean's Shield"}\n` +
             `• Qty: ${payload.quantity}\n` +
-            `• Subtotal: ₹${(payload.subtotal || payload.totalAmount).toLocaleString()}${discountStr}\n` +
-            `• Total Amount: ₹${payload.totalAmount.toLocaleString()}\n` +
+            `• Subtotal: ₹${(payload.subtotal || payload.totalAmount).toLocaleString()}${discountStr}${shippingStr}\n` +
+            `• Grand Total: ₹${grandTotal.toLocaleString()}\n` +
             `• Phone: ${phone}\n` +
             `• Address: ${addrStr}`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -276,13 +294,71 @@ const PaymentPage = () => {
                             🏷️ Code {payload.discountCode} applied (-₹{payload.discountAmount})
                         </p>
                     )}
+
+                    {/* ── Order Summary (Product + Shipping + Total) ── */}
                     <div style={{
-                        marginTop: '1rem',
-                        fontSize: '2rem',
-                        fontFamily: 'var(--font-serif)',
-                        color: 'var(--color-gold)',
+                        marginTop: '1.2rem',
+                        background: 'rgba(255,255,255,0.07)',
+                        borderRadius: '10px',
+                        padding: '1rem 1.4rem',
+                        textAlign: 'left',
                     }}>
-                        ₹ {payload.totalAmount.toLocaleString()}
+                        {/* Product line */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'rgba(255,255,255,0.75)', marginBottom: '0.5rem' }}>
+                            <span>Product ({payload.quantity} × bottle{payload.quantity > 1 ? 's' : ''})</span>
+                            <span>₹{(payload.totalAmount || 0).toLocaleString()}</span>
+                        </div>
+
+                        {/* Shipping line */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.6rem' }}>
+                            <span style={{ color: 'rgba(255,255,255,0.65)' }}>
+                                Delivery
+                                {shippingZone && (
+                                    <span style={{ fontSize: '0.75rem', marginLeft: '0.4rem', opacity: 0.7 }}>
+                                        ({ZONE_LABELS[shippingZone]})
+                                    </span>
+                                )}
+                            </span>
+                            <span style={{
+                                color: shippingResult?.isFree ? '#4caf50' : shippingResult ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)',
+                                fontWeight: shippingResult?.isFree ? '700' : '400',
+                            }}>
+                                {shippingResult === null
+                                    ? 'Enter pincode ↓'
+                                    : shippingResult.isFree
+                                        ? 'FREE 🎉'
+                                        : `₹${shippingResult.charge}`}
+                            </span>
+                        </div>
+
+                        {/* Divider */}
+                        <div style={{ height: '1px', background: 'rgba(255,255,255,0.12)', marginBottom: '0.6rem' }} />
+
+                        {/* Grand Total */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                            <span style={{ color: 'var(--color-gold)', fontWeight: '700', fontSize: '0.88rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
+                                Grand Total
+                            </span>
+                            <span style={{
+                                fontSize: '1.8rem',
+                                fontFamily: 'var(--font-serif)',
+                                color: 'var(--color-gold)',
+                            }}>
+                                ₹ {grandTotal.toLocaleString()}
+                            </span>
+                        </div>
+
+                        {/* Free shipping nudge */}
+                        {shippingResult === null && payload.totalAmount < FREE_SHIPPING_THRESHOLD && (
+                            <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.45)', marginTop: '0.5rem', textAlign: 'center' }}>
+                                🚚 Add ₹{(FREE_SHIPPING_THRESHOLD - payload.totalAmount).toLocaleString()} more for free delivery
+                            </p>
+                        )}
+                        {shippingResult === null && payload.totalAmount >= FREE_SHIPPING_THRESHOLD && (
+                            <p style={{ fontSize: '0.75rem', color: '#4caf50', marginTop: '0.5rem', textAlign: 'center', fontWeight: '600' }}>
+                                ✓ You qualify for free delivery!
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -376,7 +452,7 @@ const PaymentPage = () => {
                             }}
                         />
 
-                        {/* Serviceability verdict for the entered pincode */}
+                        {/* Serviceability verdict + live shipping cost */}
                         <div id="pincode-status" aria-live="polite" style={{ minHeight: '1.25rem' }}>
                             {pincodeCheck.pending && (
                                 <p style={{ fontSize: '0.8rem', color: 'var(--color-dark)', opacity: 0.6, margin: '0 0 0.75rem' }}>
@@ -384,11 +460,33 @@ const PaymentPage = () => {
                                 </p>
                             )}
 
-                            {pincodeCheck.status === SERVICEABILITY.OK && (
-                                <p style={{ fontSize: '0.8rem', color: '#2e7d32', margin: '0 0 0.75rem' }}>
-                                    ✓ Deliverable to {pincodeCheck.city || 'this pincode'}
-                                    {pincodeCheck.state ? `, ${pincodeCheck.state}` : ''}
-                                </p>
+                            {pincodeCheck.status === SERVICEABILITY.OK && shippingResult && (
+                                <div style={{
+                                    background: shippingResult.isFree ? 'rgba(46,125,50,0.07)' : 'rgba(26,26,26,0.04)',
+                                    border: `1px solid ${shippingResult.isFree ? '#c8e6c9' : '#e0e0e0'}`,
+                                    borderRadius: '8px',
+                                    padding: '0.75rem 1rem',
+                                    marginBottom: '0.75rem',
+                                    fontSize: '0.82rem',
+                                }}>
+                                    <p style={{ color: '#2e7d32', margin: '0 0 0.35rem', fontWeight: '600' }}>
+                                        ✓ Deliverable to {pincodeCheck.city || 'this pincode'}
+                                        {pincodeCheck.state ? `, ${pincodeCheck.state}` : ''}
+                                        {' '}· <span style={{ opacity: 0.75 }}>{ZONE_LABELS[shippingZone]}</span>
+                                    </p>
+                                    {shippingResult.isFree ? (
+                                        <p style={{ color: '#2e7d32', margin: 0, fontWeight: '700' }}>
+                                            🎉 Free delivery on this order!
+                                        </p>
+                                    ) : (
+                                        <p style={{ color: '#555', margin: 0 }}>
+                                            🚚 Estimated delivery: <strong style={{ color: 'var(--color-dark)' }}>₹{shippingResult.charge}</strong>
+                                            <span style={{ color: '#888', marginLeft: '0.4rem' }}>
+                                                ({shippingResult.weightG}g shipment via DTDC 7D Surface)
+                                            </span>
+                                        </p>
+                                    )}
+                                </div>
                             )}
 
                             {pincodeCheck.status === SERVICEABILITY.UNSERVICEABLE && (
@@ -428,6 +526,31 @@ const PaymentPage = () => {
                         Choose Payment Method
                     </h3>
 
+                    {/* ── Grand Total summary before payment ── */}
+                    <div style={{
+                        background: 'var(--color-cream)', borderRadius: '8px',
+                        padding: '0.8rem 1rem', marginBottom: '1.2rem',
+                        border: '1px solid #e8e8e8', fontSize: '0.9rem',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    }}>
+                        <span style={{ color: '#555' }}>
+                            You pay today
+                            {shippingResult?.isFree && (
+                                <span style={{ color: '#2e7d32', marginLeft: '0.5rem', fontWeight: '600', fontSize: '0.8rem' }}>
+                                    (incl. free delivery)
+                                </span>
+                            )}
+                            {shippingResult && !shippingResult.isFree && shippingCharge > 0 && (
+                                <span style={{ color: '#555', marginLeft: '0.5rem', fontSize: '0.8rem' }}>
+                                    (incl. ₹{shippingCharge} delivery)
+                                </span>
+                            )}
+                        </span>
+                        <span style={{ fontWeight: '700', color: 'var(--color-dark)', fontSize: '1.1rem' }}>
+                            ₹{grandTotal.toLocaleString()}
+                        </span>
+                    </div>
+
                     {/* ── Razorpay button ── */}
                     <button
                         id="btn-pay-razorpay"
@@ -452,7 +575,7 @@ const PaymentPage = () => {
                             <path d="M26 72L48 24H62L72 50L58 56L50 36L34 72H26Z" fill="white"/>
                             <path d="M58 56L74 72H60L50 56H58Z" fill="white"/>
                         </svg>
-                        {loading ? 'Processing…' : 'Pay with Razorpay'}
+                        {loading ? 'Processing…' : `Pay ₹${grandTotal.toLocaleString()} with Razorpay`}
                     </button>
 
                     {/* ── Divider ── */}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Gift, Sparkles, Heart, Check, Tag, ArrowRight, X, Clock, Star, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { validateCoupon } from '../utils/discountUtils';
+import { FREE_SHIPPING_THRESHOLD } from '../utils/shippingCalculator';
 import goldenlight from '../assets/images/goldenlight.jpeg';
 
 const PRE_ORDER_DEADLINE = new Date('2026-10-29T23:59:59+05:30');
@@ -390,7 +391,7 @@ const DiwaliGiftingPage = () => {
                     </div>
 
                     <motion.a
-                        href="#order"
+                        href="#payment"
                         whileHover={{ scale: 1.04 }}
                         style={{
                             display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
@@ -572,14 +573,14 @@ const DiwaliGiftingPage = () => {
                     <div className="gl-cta-section">
                         {/* Gift Note Fields */}
                         <div style={{ marginBottom: '2rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem' }}>
+                            {/* <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem' }}>
                                 <Gift size={18} color="var(--color-gold)" />
                                 <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-gold)', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
                                     Gifting Someone? Add a Personal Note
                                 </span>
-                            </div>
+                            </div> */}
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-                                <div>
+                                {/* <div>
                                     <label style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: '0.4rem', textTransform: 'uppercase' }}>Recipient Name</label>
                                     <input
                                         type="text"
@@ -588,8 +589,8 @@ const DiwaliGiftingPage = () => {
                                         value={recipientName}
                                         onChange={(e) => setRecipientName(e.target.value)}
                                     />
-                                </div>
-                                <div>
+                                </div> */}
+                                {/* <div>
                                     <label style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: '0.4rem', textTransform: 'uppercase' }}>From</label>
                                     <input
                                         type="text"
@@ -598,9 +599,9 @@ const DiwaliGiftingPage = () => {
                                         value={senderName}
                                         onChange={(e) => setSenderName(e.target.value)}
                                     />
-                                </div>
+                                </div> */}
                             </div>
-                            <div>
+                            {/* <div>
                                 <label style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: '0.4rem', textTransform: 'uppercase' }}>Message on Card (optional)</label>
                                 <textarea
                                     rows="3"
@@ -609,23 +610,23 @@ const DiwaliGiftingPage = () => {
                                     onChange={(e) => setPersonalNote(e.target.value)}
                                     style={{ resize: 'vertical' }}
                                 />
-                            </div>
+                            </div> */}
                         </div>
 
-                        {/* Coupon */}
+                        {/* Coupon
                         <div style={{
                             marginBottom: '2rem', padding: '1.2rem',
                             backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: '8px',
                             border: '1px solid rgba(212,175,55,0.2)'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
+                        }}> */}
+                            {/* <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
                                 <Tag size={16} color="var(--color-gold)" />
                                 <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-gold)', letterSpacing: '1px', textTransform: 'uppercase' }}>
                                     Festive Coupon Code
                                 </span>
-                            </div>
+                            </div> */}
 
-                            {!appliedCoupon ? (
+                            {/* {!appliedCoupon ? (
                                 <form onSubmit={handleApplyCoupon} style={{ display: 'flex', gap: '0.8rem' }}>
                                     <input
                                         type="text"
@@ -664,11 +665,11 @@ const DiwaliGiftingPage = () => {
                             {couponError && (
                                 <p style={{ color: '#e74c3c', fontSize: '0.85rem', marginTop: '0.5rem' }}>{couponError}</p>
                             )}
-                        </div>
+                        </div> */}
 
                         {/* Price & CTA */}
                         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                                 <div>
                                     <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', margin: '0 0 0.3rem' }}>Golden Light · 150g · Limited-Edition</p>
                                     {appliedCoupon && (
@@ -682,6 +683,11 @@ const DiwaliGiftingPage = () => {
                                     <div style={{ fontSize: '2.5rem', fontFamily: 'var(--font-serif)', color: 'var(--color-gold)' }}>
                                         ₹ {totalAmount.toLocaleString()}
                                     </div>
+                                    <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.45)', marginTop: '0.4rem' }}>
+                                        {totalAmount >= FREE_SHIPPING_THRESHOLD
+                                            ? '✓ Free delivery included!'
+                                            : '🚚 + shipping calculated at checkout'}
+                                    </p>
                                 </div>
                                 <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
                                     <span>🌿 Natural</span>
